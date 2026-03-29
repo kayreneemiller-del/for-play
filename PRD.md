@@ -1,6 +1,6 @@
 # For-Play: Board Game Tracker — Product Requirements Document
 
-**Version:** 1.0 (Draft)
+**Version:** 1.1 (Draft)
 **Date:** 2026-03-29
 **Status:** Awaiting Review
 
@@ -8,7 +8,7 @@
 
 ## 1. Overview
 
-For-Play is a mobile-friendly web app for two players (a couple) to log and track their board game sessions. The app has two primary pages: a **Score Entry** page for recording individual game rounds, and a **History & Accolades** page that surfaces stats, trends, and a running "Leader of For-Play" title.
+For-Play is a mobile-friendly web app for two players (a couple) to log and track their board game sessions. The app has two primary pages: a **Score Entry** page for recording individual game rounds, and a **History & Accolades** page that surfaces stats, trends, and a running "For-Play Leader" title.
 
 ---
 
@@ -56,17 +56,15 @@ Wingspan Americas is a competitive engine-building game. Each player scores inde
 
 | Category | Type | Notes |
 |----------|------|-------|
-| Birds played | Number | Count of bird cards played |
+| Birds played | Number | Points from bird cards played |
 | Bonus cards | Number | Points from bonus/goal cards |
 | End-of-round goals | Number | Points from round-end goal tiles |
 | Eggs | Number | Eggs on bird cards at game end |
 | Cached food | Number | Food tokens cached on bird cards |
 | Tucked cards | Number | Cards tucked under bird cards |
-| Nectar (Americas mechanic) | Number | Nectar tokens remaining |
+| Nectar | Number | Nectar tokens (Americas mechanic) |
+| Hummingbird total | Number | Bonus points from Hummingbird cards |
 | **Total score** | Auto-calculated | Sum of all categories |
-
-**Nectar Expansion Add-on Toggle:**
-A toggle labeled "Playing with Nectar?" that shows/hides the Nectar row. Defaults to off. Setting is remembered per session.
 
 **Outcome:** Winner is determined by highest total score. Ties are noted as a tie.
 
@@ -84,17 +82,17 @@ Splendor Duel is a two-player competitive gem-drafting game with three possible 
 
 | Field | Type | Notes |
 |-------|------|-------|
-| Winner | Select: Player 1 / Player 2 / Draw | |
+| Winner | Select: Player 1 / Player 2 | |
 | Win method | Select (see below) | How the winner won |
 | Winner's prestige points | Number | Optional, for historical tracking |
 | Loser's prestige points | Number | Optional |
 | Date played | Date | Defaults to today |
 | Notes | Free text | Optional |
 
-**Win Methods:**
-1. **Prestige** — First to 20 prestige points
-2. **Crowns** — First to 10 crown tokens
-3. **Columns** — First to own a card in each column of the board
+**Win Method dropdown options** (label includes the rule so it's always clear):
+1. **Prestige — Reached 20 prestige points**
+2. **Crowns — Collected 10 crown tokens**
+3. **Columns — Owned a card in each column of the board**
 
 ---
 
@@ -121,55 +119,82 @@ Sky Team is a fully cooperative game where two players work together to land a p
 
 ### 5.1 Layout
 
-The page is divided into three sections:
-1. **Leader Board** — The current "Leader of For-Play" crown
-2. **Game-by-Game Stats** — Per-game breakdown
-3. **Accolades** — Fun badges and achievements
+The page is divided into four sections, top to bottom:
+1. **For-Play Leader** — Cumulative crown across all competitive games
+2. **Game-by-Game Stats** — Per-game breakdown with individual leaders
+3. **Fun Facts** — Quirky at-a-glance stats
+4. **Accolades** — Fun badges and achievements
 
 ---
 
-### 5.2 Leader of For-Play
+### 5.2 For-Play Leader (Cumulative)
 
-A prominent hero card at the top of the page showing:
+A prominent hero card at the top of the page showing the overall leader across **all competitive games** (Wingspan Americas + Splendor Duel; Sky Team excluded as co-op).
 
-- Current leader's name and a crown icon
-- Their overall win percentage across all competitive games (Wingspan + Splendor Duel; Sky Team excluded as co-op)
-- Number of wins vs. total rounds played
-- Last updated date
+Displays:
+- Current For-Play Leader's name + crown icon
+- Total competitive wins vs. total rounds played (e.g., "14 wins out of 22 games")
+- Overall win percentage
+- Current winning streak across any competitive game
+- Last game played date
 
-Tie state: if wins are equal, the card reads "It's a tie — no one rules the bedroom… yet."
+Tie state: "It's a tie — no one rules the bedroom… yet."
 
 ---
 
 ### 5.3 Game-by-Game Stats
 
-A card per game showing:
+A collapsible card per game, each showing its own mini-leader and detailed stats.
 
 **Wingspan Americas**
+- Game leader (most wins) with win/loss/tie record
 - Total rounds played
-- Player 1 wins / Player 2 wins / Ties
-- Highest single score (by either player)
+- Highest single score ever (name + score)
 - Average score per player
 - Longest winning streak per player
+- Closest game ever (smallest point difference)
+- Biggest blowout (largest point difference)
+- Highest score in each category (e.g., "most eggs ever: 14 by Kay")
 
 **Splendor Duel**
+- Game leader (most wins) with win/loss record
 - Total rounds played
-- Player 1 wins / Player 2 wins
-- Win breakdown by method (Prestige / Crowns / Columns) as a small chart or count
-- Biggest margin of victory (point difference)
+- Win breakdown by method — Prestige / Crowns / Columns (count + %)
+- Most common win method for each player
+- Biggest margin of victory (prestige point difference)
+- Fastest win streak
 
 **Sky Team**
 - Total sessions played
-- Successful landings vs. crashes (and % success)
-- Hardest map beaten (highest difficulty landed)
+- Successful landings vs. crashes (count + % success rate)
+- Current landing streak
+- Longest landing streak ever
+- Hardest map beaten (highest difficulty successfully landed)
 - Favorite map (most played)
-- Current win streak
+- Crash rate by difficulty level
 
 ---
 
-### 5.4 Accolades
+### 5.4 Fun Facts
 
-A scrollable list of unlockable badges. Examples:
+A rotating or always-visible panel of playful one-liners pulled from the data. Examples:
+
+- "You've played [X] total games together — that's [X] hours of quality time."
+- "[Player] is on a [X]-game hot streak. Watch out."
+- "Your most played game is [Game]."
+- "You crash the plane [X]% of the time. Yikes."
+- "The closest Wingspan game was decided by just [X] point(s)."
+- "[Player] tends to win Splendor Duel by Crowns. Aggressive."
+- "You've never tied in Splendor Duel." (or "You've tied [X] times in Wingspan.")
+- "Last game played: [X] days ago. Time to play!"
+
+Fun Facts only appear when there is enough data to populate them (minimum 1–3 games logged).
+
+---
+
+### 5.5 Accolades
+
+A scrollable list of unlockable badges. Locked accolades show as greyed-out with a hint of how to unlock them.
 
 | Accolade | Trigger |
 |----------|---------|
@@ -177,16 +202,18 @@ A scrollable list of unlockable badges. Examples:
 | **Gem Hoarder** | Win 5 Splendor Duel games via Prestige |
 | **Crown Jewel** | Win a Splendor Duel game via Crowns |
 | **Column Climber** | Win a Splendor Duel game via Columns |
+| **Hat Trick** | Win using all three Splendor Duel methods at least once |
 | **Safe Landing** | Land the plane 3 times in a row in Sky Team |
 | **Going Down** | Crash 3 times in a row in Sky Team (commiseration badge) |
 | **Wingspan Champ** | Win 10 Wingspan games total |
 | **Highest Flyer** | Record a Wingspan score over 100 points |
-| **Nectar Nerd** | Log 5 Wingspan games with the Nectar expansion |
+| **Hummingbird Hero** | Score 10+ Hummingbird points in a single Wingspan game |
+| **Nectar Queen/King** | Score the highest Nectar total in a Wingspan game |
 | **On a Roll** | Win 5 competitive games in a row (either game) |
-| **For-Play Royalty** | Hold the Leader title for 30+ consecutive days |
-| **Evenly Matched** | Have a head-to-head record within 1 win of each other |
-
-Locked accolades show as greyed-out with a hint of how to unlock.
+| **For-Play Royalty** | Hold the For-Play Leader title for 30+ consecutive days |
+| **Evenly Matched** | Head-to-head record within 1 win of each other |
+| **Date Night MVP** | Log 3 different games in one calendar day |
+| **Century Club** | Play 100 total rounds across all games |
 
 ---
 
@@ -203,6 +230,15 @@ Rounds
   - id, game_id, date, notes
   - scores: [ { player_id, ...game-specific fields } ]
   - outcome: winner_id | "tie" | "landed" | "crashed"
+
+Wingspan scores per player:
+  - birds, bonus_cards, round_goals, eggs, cached_food, tucked_cards, nectar, hummingbird, total
+
+Splendor Duel per round:
+  - winner_id, win_method, winner_points, loser_points
+
+Sky Team per round:
+  - outcome, map, difficulty, modules[]
 ```
 
 All data is stored locally in the browser (localStorage or IndexedDB) for v1. No login or backend required.
@@ -212,7 +248,7 @@ All data is stored locally in the browser (localStorage or IndexedDB) for v1. No
 ## 7. Design Principles
 
 - **Mobile-first:** All interactions should be comfortable on a phone screen (thumb-friendly tap targets, large inputs).
-- **Playful but readable:** Fun tone in copy and accolades without sacrificing clarity.
+- **Playful but readable:** Fun tone in copy, stats, and accolades without sacrificing clarity.
 - **Fast to log:** A new round should take under 60 seconds to enter.
 - **No accounts required:** Data lives on-device in v1.
 
@@ -231,8 +267,7 @@ All data is stored locally in the browser (localStorage or IndexedDB) for v1. No
 ## 9. Open Questions for Review
 
 1. **Player names:** Should these be set once in a settings screen, or entered per session? Recommend: set once.
-2. **Splendor Duel draws:** Can the game end in a draw? Rules suggest not, but should we support it anyway?
-3. **Sky Team difficulty scale:** The game uses a symbol/difficulty system per airport — should we use the game's native difficulty labels or a simplified 1–5 scale?
-4. **Sky Team modules:** Do you want to track which special modules (traffic, ice, etc.) were active per session, or keep it simple?
-5. **Accolades scope:** Are the example accolades on the right track, or are there specific achievements you have in mind?
-6. **Data persistence:** LocalStorage (simpler, limited space) or IndexedDB (more robust for large history)?
+2. **Sky Team difficulty scale:** The game uses a symbol/difficulty system per airport — should we use the game's native difficulty labels or a simplified 1–5 scale?
+3. **Sky Team modules:** Do you want to track which special modules (traffic, ice, etc.) were active per session, or keep it simple?
+4. **Accolades scope:** Are the example accolades on the right track, or are there specific achievements you have in mind?
+5. **Data persistence:** LocalStorage (simpler, limited space) or IndexedDB (more robust for large history)?
