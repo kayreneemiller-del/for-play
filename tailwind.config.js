@@ -36,12 +36,22 @@ export default {
           '0%': { transform: 'translateY(20px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
+        trot: {
+          '0%, 100%': { transform: 'translateY(0) scale(1)' },
+          '50%': { transform: 'translateY(-4px) scale(1.15)' },
+        },
+        racePulse: {
+          '0%, 100%': { boxShadow: '0 0 8px rgba(255,215,0,0.3)' },
+          '50%': { boxShadow: '0 0 20px rgba(255,215,0,0.7)' },
+        },
       },
       animation: {
         shimmer: 'shimmer 2s ease-in-out infinite',
         burst: 'burst 0.4s ease-out forwards',
         fadeOut: 'fadeOut 0.5s ease-in forwards',
         slideUp: 'slideUp 0.3s ease-out forwards',
+        trot: 'trot 0.5s ease-in-out infinite',
+        racePulse: 'racePulse 1.5s ease-in-out infinite',
       },
     },
   },

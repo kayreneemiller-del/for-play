@@ -1,5 +1,6 @@
 import { useStats } from '../../hooks/useStats'
 import LeaderHero from './LeaderHero'
+import HorseRace from './HorseRace'
 import WingspanStats from './WingspanStats'
 import SplendorStats from './SplendorStats'
 import SkyTeamStats from './SkyTeamStats'
@@ -17,6 +18,7 @@ export default function OurStory({ rounds }) {
       </div>
 
       <LeaderHero overall={stats.overall} />
+      <HorseRace overall={stats.overall} />
 
       <FunFacts facts={stats.facts} />
 
