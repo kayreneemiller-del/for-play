@@ -246,12 +246,57 @@ All data is stored locally in the browser (localStorage or IndexedDB) for v1. No
 
 ---
 
-## 7. Design Principles
+## 7. Design & Theme
 
-- **Mobile-first:** All interactions should be comfortable on a phone screen (thumb-friendly tap targets, large inputs).
-- **Playful but readable:** Fun tone in copy, stats, and accolades without sacrificing clarity.
-- **Fast to log:** A new round should take under 60 seconds to enter.
-- **No accounts required:** Data lives on-device in v1.
+### 7.1 Visual Theme — High-Roller Casino
+
+The app should feel like a glamorous, high-energy casino floor — think Vegas neon meets a luxury card table. Bright, bold, and a little over the top. This is date night, after all.
+
+### 7.2 Color Palette
+
+| Role | Color | Hex |
+|------|-------|-----|
+| Background | Deep casino green (felt table) | `#0B3D2E` |
+| Surface / cards | Dark charcoal | `#1A1A2E` |
+| Primary accent | Neon gold / amber | `#FFD700` |
+| Secondary accent | Hot magenta / neon pink | `#FF2D78` |
+| Tertiary accent | Electric teal | `#00F5D4` |
+| Text – primary | Bright white | `#FFFFFF` |
+| Text – secondary | Warm cream | `#F5E6C8` |
+| Success (landed, win) | Neon green | `#39FF14` |
+| Danger (crashed, loss) | Neon red | `#FF3131` |
+
+### 7.3 Typography
+
+| Use | Style |
+|-----|-------|
+| App name / headers | Bold serif or slab font — loud and proud (e.g., *Playfair Display Bold* or *Abril Fatface*) |
+| Body / labels | Clean sans-serif for readability (e.g., *Inter* or *DM Sans*) |
+| Score numbers | Large, tabular monospace — like a casino scoreboard |
+| Accolade names | All-caps with letter spacing |
+
+### 7.4 UI Elements
+
+- **Cards & surfaces:** Dark backgrounds with a subtle gold border or inner glow
+- **Buttons:** Pill-shaped, filled with neon gold or magenta; glow effect on press
+- **Score inputs:** Large, high-contrast number fields — easy to tap and read at a glance
+- **Winner callout:** Animated burst or shimmer effect (confetti, card fan, or coin shower)
+- **Accolades:** Badge-style chips — styled like casino tokens, gold for unlocked, grey for locked
+- **For-Play Leader card:** Crowned hero banner with a glowing gold border and subtle animated shimmer
+- **Bottom nav:** Dark bar with gold active indicator
+
+### 7.5 Tone & Copy
+
+- Playful, slightly cheeky — this is a couples app called For-Play
+- Accolade unlock messages should feel like a casino win (e.g., "Jackpot! You've unlocked Crown Jewel")
+- Stats page should feel like reviewing your chips at the end of the night
+
+### 7.6 Design Principles
+
+- **Mobile-first:** Thumb-friendly tap targets, large inputs, no tiny text
+- **Fast to log:** A new round should take under 60 seconds to enter
+- **Readable in the dark:** High contrast palette works well in dim lighting (game night conditions)
+- **No accounts required:** Data lives on-device in v1
 
 ---
 
