@@ -106,7 +106,7 @@ Sky Team is a fully cooperative game where two players work together to land a p
 |-------|------|-------|
 | Outcome | Toggle: Landed / Crashed | |
 | Map | Select or free text | Name of the airport/map played |
-| Difficulty level | Select: 1–5 (or per game's scale) | |
+| Difficulty level | Select: Green / Yellow / Red / Black | In order of increasing difficulty |
 | Special modules active | Multi-select (optional) | E.g., traffic, ice, etc. |
 | Date played | Date | Defaults to today |
 | Notes | Free text | Optional |
@@ -169,9 +169,9 @@ A collapsible card per game, each showing its own mini-leader and detailed stats
 - Successful landings vs. crashes (count + % success rate)
 - Current landing streak
 - Longest landing streak ever
-- Hardest map beaten (highest difficulty successfully landed)
+- Hardest map beaten (highest difficulty successfully landed — e.g., "Black: Tokyo")
 - Favorite map (most played)
-- Crash rate by difficulty level
+- Crash rate by difficulty (Green / Yellow / Red / Black)
 
 ---
 
@@ -267,7 +267,6 @@ All data is stored locally in the browser (localStorage or IndexedDB) for v1. No
 ## 9. Open Questions for Review
 
 1. **Player names:** Should these be set once in a settings screen, or entered per session? Recommend: set once.
-2. **Sky Team difficulty scale:** The game uses a symbol/difficulty system per airport — should we use the game's native difficulty labels or a simplified 1–5 scale?
-3. **Sky Team modules:** Do you want to track which special modules (traffic, ice, etc.) were active per session, or keep it simple?
+2. **Sky Team modules:** Do you want to track which special modules (traffic, ice, etc.) were active per session, or keep it simple?
 4. **Accolades scope:** Are the example accolades on the right track, or are there specific achievements you have in mind?
 5. **Data persistence:** LocalStorage (simpler, limited space) or IndexedDB (more robust for large history)?
