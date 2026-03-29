@@ -1,8 +1,8 @@
 # For-Play: Board Game Tracker — Product Requirements Document
 
-**Version:** 1.1 (Draft)
+**Version:** 1.2 (Final)
 **Date:** 2026-03-29
-**Status:** Awaiting Review
+**Status:** Approved — Ready to Build
 
 ---
 
@@ -265,8 +265,13 @@ All data is stored locally in the browser (localStorage or IndexedDB) for v1. No
 
 ---
 
-## 9. Open Questions for Review
+## 9. Decisions Log
 
-1. **Sky Team modules:** Do you want to track which special modules (traffic, ice, etc.) were active per session, or keep it simple?
-4. **Accolades scope:** Are the example accolades on the right track, or are there specific achievements you have in mind?
-5. **Data persistence:** LocalStorage (simpler, limited space) or IndexedDB (more robust for large history)?
+| Question | Decision |
+|----------|----------|
+| Player names | Fixed: Kayra, Mat, The Dotsons — no setup screen |
+| Sky Team difficulty scale | Green / Yellow / Red / Black |
+| Sky Team modules | Track active modules per session (traffic, icing, etc.) |
+| Splendor Duel draws | Not supported — rules don't allow it |
+| Accolades | Approved as specified in §5.5 |
+| Data persistence | IndexedDB for robustness |
