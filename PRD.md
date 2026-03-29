@@ -14,12 +14,13 @@ For-Play is a mobile-friendly web app for two players (a couple) to log and trac
 
 ## 2. Users
 
-| Player | Role |
-|--------|------|
-| Player 1 | One half of the couple (e.g., "Kay") |
-| Player 2 | Other half of the couple (e.g., "Husband") |
+| Player | Name | Role |
+|--------|------|------|
+| Player 1 | **Kayra** | Competitive player |
+| Player 2 | **Mat** | Competitive player |
+| Co-op | **The Dotsons** | Used for Sky Team shared results |
 
-Player names should be configurable on first launch and editable in settings.
+Player names are fixed — no setup or settings required.
 
 ---
 
@@ -266,7 +267,6 @@ All data is stored locally in the browser (localStorage or IndexedDB) for v1. No
 
 ## 9. Open Questions for Review
 
-1. **Player names:** Should these be set once in a settings screen, or entered per session? Recommend: set once.
-2. **Sky Team modules:** Do you want to track which special modules (traffic, ice, etc.) were active per session, or keep it simple?
+1. **Sky Team modules:** Do you want to track which special modules (traffic, ice, etc.) were active per session, or keep it simple?
 4. **Accolades scope:** Are the example accolades on the right track, or are there specific achievements you have in mind?
 5. **Data persistence:** LocalStorage (simpler, limited space) or IndexedDB (more robust for large history)?
