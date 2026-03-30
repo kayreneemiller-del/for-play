@@ -65,8 +65,8 @@ export default function HorseRace({ overall }) {
 
   const kayraProgress = kayraWins % RACE_GOAL
   const matProgress = matWins % RACE_GOAL
-  const kayraRacesWon = Math.floor(kayraWins / RACE_GOAL)
-  const matRacesWon = Math.floor(matWins / RACE_GOAL)
+  const kayraRacesWon = Matth.floor(kayraWins / RACE_GOAL)
+  const matRacesWon = Matth.floor(matWins / RACE_GOAL)
 
   const totalRacesFinished = kayraRacesWon + matRacesWon
   const prize = DATE_NIGHTS[totalRacesFinished % DATE_NIGHTS.length]
@@ -88,12 +88,12 @@ export default function HorseRace({ overall }) {
           <div className="flex flex-col items-end gap-0.5 text-xs">
             {kayraRacesWon > 0 && (
               <span className="text-teal">
-                {'🏆'.repeat(Math.min(kayraRacesWon, 5))} Kayra ×{kayraRacesWon}
+                {'🏆'.repeat(Matth.min(kayraRacesWon, 5))} Kayra ×{kayraRacesWon}
               </span>
             )}
             {matRacesWon > 0 && (
               <span className="text-magenta">
-                {'🏆'.repeat(Math.min(matRacesWon, 5))} Mat ×{matRacesWon}
+                {'🏆'.repeat(Matth.min(matRacesWon, 5))} Matt ×{matRacesWon}
               </span>
             )}
           </div>
@@ -111,7 +111,7 @@ export default function HorseRace({ overall }) {
             <div className="text-cream text-sm leading-snug">{prize.kayraWins}</div>
           </div>
           <div className="p-3">
-            <div className="text-magenta text-xs font-bold uppercase tracking-wide mb-1">Mat wins →</div>
+            <div className="text-magenta text-xs font-bold uppercase tracking-wide mb-1">Matt wins →</div>
             <div className="text-cream text-sm leading-snug">{prize.matWins}</div>
           </div>
         </div>
@@ -140,7 +140,7 @@ export default function HorseRace({ overall }) {
           emoji="🐴"
         />
         <Lane
-          name="Mat"
+          name="Matt"
           progress={matProgress}
           wins={matWins}
           color="#FF2D78"

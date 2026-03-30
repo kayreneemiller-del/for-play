@@ -20,10 +20,10 @@ export default function SplendorStats({ stats }) {
 
   return (
     <CollapsibleCard title="💎 Splendor Duel" subtitle={`${leaderLabel} · ${total} rounds`}>
-      <StatRow label="Record" value={`Kayra ${kayraWins} – Mat ${matWins}`} />
+      <StatRow label="Record" value={`Kayra ${kayraWins} – Matt ${matWins}`} />
       {biggestMargin !== null && <StatRow label="Biggest margin" value={`${biggestMargin} pts`} />}
       {kayraFavMethod && <StatRow label="Kayra's go-to method" value={METHOD_LABELS[kayraFavMethod]} />}
-      {matFavMethod && <StatRow label="Mat's go-to method" value={METHOD_LABELS[matFavMethod]} />}
+      {matFavMethod && <StatRow label="Matt's go-to method" value={METHOD_LABELS[matFavMethod]} />}
 
       {totalMethods > 0 && (
         <div className="pt-2">

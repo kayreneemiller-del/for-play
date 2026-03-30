@@ -32,9 +32,9 @@ export default function WingspanStats({ stats }) {
         />
       )}
       {kayraAvg !== null && <StatRow label="Kayra avg score" value={kayraAvg} />}
-      {matAvg !== null && <StatRow label="Mat avg score" value={matAvg} />}
+      {matAvg !== null && <StatRow label="Matt avg score" value={matAvg} />}
       {kayraStreak > 1 && <StatRow label="Kayra best streak" value={`${kayraStreak} wins`} />}
-      {matStreak > 1 && <StatRow label="Mat best streak" value={`${matStreak} wins`} />}
+      {matStreak > 1 && <StatRow label="Matt best streak" value={`${matStreak} wins`} />}
       {closestGame !== null && <StatRow label="Closest game" value={`${closestGame} pt margin`} />}
       {biggestBlowout !== null && <StatRow label="Biggest blowout" value={`${biggestBlowout} pts`} />}
 

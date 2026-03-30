@@ -67,7 +67,7 @@ export default function LeaderHero({ overall }) {
             <div className="mt-4">
               <div className="flex justify-between text-xs text-cream/50 mb-1">
                 <span className="text-teal">Kayra {kayraWins}</span>
-                <span className="text-magenta">Mat {matWins}</span>
+                <span className="text-magenta">Matt {matWins}</span>
               </div>
               <div className="h-2 bg-white/10 rounded-full overflow-hidden flex">
                 {total > 0 && (

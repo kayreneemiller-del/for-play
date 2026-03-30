@@ -4,6 +4,6 @@ export const DOTSONS = 'dotsons'
 
 export const PLAYER_LABELS = {
   [KAYRA]: 'Kayra',
-  [MAT]: 'Mat',
+  [MAT]: 'Matt',
   [DOTSONS]: 'The Dotsons',
 }

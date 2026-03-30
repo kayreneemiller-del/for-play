@@ -166,7 +166,7 @@ export function useStats(rounds) {
       facts.push(`You've played ${rounds.length} total game${rounds.length !== 1 ? 's' : ''} together.`)
     }
     if (kayraCurrentStreak >= 3) {
-      facts.push(`${PLAYER_LABELS[KAYRA]} is on a ${kayraCurrentStreak}-game hot streak. Watch out, Mat.`)
+      facts.push(`${PLAYER_LABELS[KAYRA]} is on a ${kayraCurrentStreak}-game hot streak. Watch out, Matt.`)
     }
     if (matCurrentStreak >= 3) {
       facts.push(`${PLAYER_LABELS[MAT]} is on a ${matCurrentStreak}-game hot streak. Watch out, Kayra.`)

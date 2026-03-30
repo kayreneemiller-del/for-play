@@ -56,7 +56,7 @@ export default function WingspanForm({ onSave }) {
         <div className="grid grid-cols-[1fr_auto_auto] gap-2 px-4 py-3 bg-surface-2 border-b border-white/10">
           <div className="text-xs text-cream/50 uppercase tracking-wider">Category</div>
           <div className="text-xs text-teal font-bold uppercase tracking-wider w-20 text-center">Kayra</div>
-          <div className="text-xs text-magenta font-bold uppercase tracking-wider w-20 text-center">Mat</div>
+          <div className="text-xs text-magenta font-bold uppercase tracking-wider w-20 text-center">Matt</div>
         </div>
 
         {/* Rows */}

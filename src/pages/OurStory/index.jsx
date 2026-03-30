@@ -14,7 +14,7 @@ export default function OurStory({ rounds }) {
     <div className="px-4 pt-6 pb-4 mb-nav space-y-4">
       <div className="mb-2">
         <h1 className="font-display text-3xl text-gold">Our Story</h1>
-        <p className="text-cream/60 text-sm mt-1">Kayra & Mat's game history</p>
+        <p className="text-cream/60 text-sm mt-1">Kayra & Matt's game history</p>
       </div>
 
       <LeaderHero overall={stats.overall} />
