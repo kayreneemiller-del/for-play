@@ -1,5 +1,5 @@
 import CollapsibleCard from '../../components/CollapsibleCard'
-import { PLAYER_LABELS } from '../../constants/players'
+import { usePlayerLabels } from '../../context/CoupleContext'
 
 const CAT_LABELS = {
   birds: 'Birds', bonus_cards: 'Bonus Cards', round_goals: 'Round Goals',
@@ -17,10 +17,11 @@ function StatRow({ label, value }) {
 }
 
 export default function WingspanStats({ stats }) {
+  const playerLabels = usePlayerLabels()
   const { leader, kayraWins, matWins, ties, total, highestScore, kayraAvg, matAvg,
     kayraStreak, matStreak, closestGame, biggestBlowout, categoryHighs } = stats
 
-  const leaderLabel = leader === 'tie' ? 'Tied' : `${PLAYER_LABELS[leader]} leads`
+  const leaderLabel = leader === 'tie' ? 'Tied' : `${playerLabels[leader]} leads`
 
   return (
     <CollapsibleCard title="🦅 Wingspan Americas" subtitle={`${leaderLabel} · ${total} rounds`}>
@@ -28,7 +29,7 @@ export default function WingspanStats({ stats }) {
       {highestScore && (
         <StatRow
           label="Highest score ever"
-          value={`${highestScore.total} by ${PLAYER_LABELS[highestScore.player]}`}
+          value={`${highestScore.total} by ${playerLabels[highestScore.player]}`}
         />
       )}
       {kayraAvg !== null && <StatRow label="Kayra avg score" value={kayraAvg} />}
@@ -46,7 +47,7 @@ export default function WingspanStats({ stats }) {
               <StatRow
                 key={cat}
                 label={CAT_LABELS[cat] ?? cat}
-                value={`${best.val} by ${PLAYER_LABELS[best.player]}`}
+                value={`${best.val} by ${playerLabels[best.player]}`}
               />
             ) : null
           )}

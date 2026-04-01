@@ -1,5 +1,5 @@
 import CollapsibleCard from '../../components/CollapsibleCard'
-import { PLAYER_LABELS } from '../../constants/players'
+import { usePlayerLabels } from '../../context/CoupleContext'
 
 const METHOD_LABELS = { prestige: 'Prestige', crowns: 'Crowns', columns: 'Columns' }
 
@@ -13,17 +13,18 @@ function StatRow({ label, value }) {
 }
 
 export default function SplendorStats({ stats }) {
+  const playerLabels = usePlayerLabels()
   const { leader, kayraWins, matWins, total, methodCounts, kayraFavMethod, matFavMethod, biggestMargin } = stats
 
-  const leaderLabel = leader === 'tie' ? 'Tied' : `${PLAYER_LABELS[leader]} leads`
+  const leaderLabel = leader === 'tie' ? 'Tied' : `${playerLabels[leader]} leads`
   const totalMethods = Object.values(methodCounts).reduce((s, v) => s + v, 0)
 
   return (
     <CollapsibleCard title="💎 Splendor Duel" subtitle={`${leaderLabel} · ${total} rounds`}>
-      <StatRow label="Record" value={`Kayra ${kayraWins} – Matt ${matWins}`} />
+      <StatRow label="Record" value={`${playerLabels.kayra} ${kayraWins} – ${playerLabels.mat} ${matWins}`} />
       {biggestMargin !== null && <StatRow label="Biggest margin" value={`${biggestMargin} pts`} />}
-      {kayraFavMethod && <StatRow label="Kayra's go-to method" value={METHOD_LABELS[kayraFavMethod]} />}
-      {matFavMethod && <StatRow label="Matt's go-to method" value={METHOD_LABELS[matFavMethod]} />}
+      {kayraFavMethod && <StatRow label={`${playerLabels.kayra}'s go-to method`} value={METHOD_LABELS[kayraFavMethod]} />}
+      {matFavMethod && <StatRow label={`${playerLabels.mat}'s go-to method`} value={METHOD_LABELS[matFavMethod]} />}
 
       {totalMethods > 0 && (
         <div className="pt-2">

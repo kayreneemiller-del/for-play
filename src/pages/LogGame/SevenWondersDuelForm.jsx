@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import PillButton from '../../components/PillButton'
 import ScoreInput from '../../components/ScoreInput'
-import { SPLENDOR_WIN_METHODS } from '../../constants/games'
+import { SEVEN_WONDERS_WIN_METHODS } from '../../constants/games'
 import { KAYRA, MAT } from '../../constants/players'
 import { usePlayerLabels } from '../../context/CoupleContext'
 
 const today = () => new Date().toISOString().slice(0, 10)
 
-export default function SplendorForm({ onSave }) {
+export default function SevenWondersDuelForm({ onSave }) {
   const playerLabels = usePlayerLabels()
   const [winner, setWinner] = useState(null)
   const [winMethod, setWinMethod] = useState('')
@@ -20,7 +20,7 @@ export default function SplendorForm({ onSave }) {
 
   const handleSubmit = () => {
     onSave({
-      gameId: 'splendor',
+      gameId: '7wonders',
       date,
       notes,
       winner,
@@ -32,7 +32,6 @@ export default function SplendorForm({ onSave }) {
 
   return (
     <div className="space-y-5">
-      {/* Winner */}
       <div className="flex flex-col gap-2">
         <label className="text-xs text-cream/70 uppercase tracking-wider">Who Won?</label>
         <div className="flex gap-3">
@@ -56,22 +55,20 @@ export default function SplendorForm({ onSave }) {
         </div>
       </div>
 
-      {/* Win Method */}
       <div className="flex flex-col gap-2">
-        <label className="text-xs text-cream/70 uppercase tracking-wider">Win Method</label>
+        <label className="text-xs text-cream/70 uppercase tracking-wider">Win Condition</label>
         <select
           value={winMethod}
           onChange={(e) => setWinMethod(e.target.value)}
           className="bg-surface-2 border border-white/20 rounded-lg px-3 py-3 text-white focus:outline-none focus:border-gold appearance-none"
         >
           <option value="">Select how they won…</option>
-          {SPLENDOR_WIN_METHODS.map((m) => (
+          {SEVEN_WONDERS_WIN_METHODS.map((m) => (
             <option key={m.value} value={m.value}>{m.label}</option>
           ))}
         </select>
       </div>
 
-      {/* Points */}
       <div className="grid grid-cols-2 gap-4">
         <ScoreInput
           label={`${playerLabels[winner ?? KAYRA]} points`}
@@ -85,7 +82,6 @@ export default function SplendorForm({ onSave }) {
         />
       </div>
 
-      {/* Date */}
       <div className="flex flex-col gap-1">
         <label className="text-xs text-cream/70 uppercase tracking-wider">Date Played</label>
         <input
@@ -96,7 +92,6 @@ export default function SplendorForm({ onSave }) {
         />
       </div>
 
-      {/* Notes */}
       <div className="flex flex-col gap-1">
         <label className="text-xs text-cream/70 uppercase tracking-wider">Notes (optional)</label>
         <textarea

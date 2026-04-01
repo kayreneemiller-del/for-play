@@ -1,4 +1,4 @@
-export default function ScoreInput({ label, value, onChange, className = '' }) {
+export default function ScoreInput({ label, value, onChange, allowNegative = false, className = '' }) {
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
       {label && (
@@ -6,12 +6,14 @@ export default function ScoreInput({ label, value, onChange, className = '' }) {
       )}
       <input
         type="text"
-        inputMode="numeric"
-        pattern="[0-9]*"
+        inputMode={allowNegative ? 'text' : 'numeric'}
+        pattern={allowNegative ? '[\\-0-9]*' : '[0-9]*'}
         value={value === null || value === undefined ? '' : value}
         onChange={(e) => {
-          const raw = e.target.value.replace(/[^0-9]/g, '')
-          onChange(raw === '' ? null : parseInt(raw, 10))
+          const raw = allowNegative
+            ? e.target.value.replace(/[^0-9\-]/g, '').replace(/(?!^)-/g, '')
+            : e.target.value.replace(/[^0-9]/g, '')
+          onChange(raw === '' || raw === '-' ? null : parseInt(raw, 10))
         }}
         className="
           bg-surface-2 border border-white/20 rounded-lg px-3 py-3

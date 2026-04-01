@@ -1,6 +1,10 @@
 export const WINGSPAN = 'wingspan'
 export const SPLENDOR = 'splendor'
 export const SKYTEAM = 'skyteam'
+export const JAIPUR = 'jaipur'
+export const PATCHWORK = 'patchwork'
+export const LOST_CITIES = 'lost_cities'
+export const SEVEN_WONDERS = '7wonders'
 
 export const GAME_CONFIG = {
   [WINGSPAN]: {
@@ -24,12 +28,47 @@ export const GAME_CONFIG = {
     type: 'cooperative',
     color: 'gold',
   },
+  [JAIPUR]: {
+    id: JAIPUR,
+    label: 'Jaipur',
+    emoji: '🐪',
+    type: 'competitive',
+    color: 'gold',
+  },
+  [PATCHWORK]: {
+    id: PATCHWORK,
+    label: 'Patchwork',
+    emoji: '🧵',
+    type: 'competitive',
+    color: 'teal',
+  },
+  [LOST_CITIES]: {
+    id: LOST_CITIES,
+    label: 'Lost Cities',
+    emoji: '🗺️',
+    type: 'competitive',
+    color: 'magenta',
+    allowNegative: true,
+  },
+  [SEVEN_WONDERS]: {
+    id: SEVEN_WONDERS,
+    label: '7 Wonders Duel',
+    emoji: '🏛️',
+    type: 'competitive',
+    color: 'gold',
+  },
 }
 
 export const SPLENDOR_WIN_METHODS = [
   { value: 'prestige', label: 'Prestige — Reached 20 prestige points' },
   { value: 'crowns', label: 'Crowns — Collected 10 crown tokens' },
   { value: 'columns', label: 'Columns — Owned a card in each column' },
+]
+
+export const SEVEN_WONDERS_WIN_METHODS = [
+  { value: 'military', label: 'Military Supremacy — Advanced your shield token' },
+  { value: 'science', label: 'Science Supremacy — Collected 6 science symbols' },
+  { value: 'civilian', label: 'Civilian Victory — Most victory points' },
 ]
 
 export const SKYTEAM_DIFFICULTIES = [

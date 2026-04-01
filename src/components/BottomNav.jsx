@@ -2,6 +2,7 @@ export default function BottomNav({ active, onChange }) {
   const tabs = [
     { id: 'log', label: 'Log Game', icon: '🎲' },
     { id: 'story', label: 'Our Story', icon: '🏆' },
+    { id: 'settings', label: 'Settings', icon: '⚙️' },
   ]
 
   return (
@@ -14,7 +15,7 @@ export default function BottomNav({ active, onChange }) {
             onClick={() => onChange(tab.id)}
             className={`
               flex-1 flex flex-col items-center justify-center py-3 gap-0.5
-              transition-colors duration-150
+              transition-colors duration-150 relative
               ${active === tab.id ? 'text-gold' : 'text-white/40'}
             `}
           >

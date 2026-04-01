@@ -2,7 +2,8 @@ import { useState } from 'react'
 import ScoreInput from '../../components/ScoreInput'
 import PillButton from '../../components/PillButton'
 import { WINGSPAN_CATEGORIES } from '../../constants/games'
-import { KAYRA, MAT, PLAYER_LABELS } from '../../constants/players'
+import { KAYRA, MAT } from '../../constants/players'
+import { usePlayerLabels } from '../../context/CoupleContext'
 
 const today = () => new Date().toISOString().slice(0, 10)
 
@@ -16,6 +17,7 @@ function calcTotal(scores) {
 }
 
 export default function WingspanForm({ onSave }) {
+  const playerLabels = usePlayerLabels()
   const [scores, setScores] = useState({ [KAYRA]: emptyScores(), [MAT]: emptyScores() })
   const [date, setDate] = useState(today())
   const [notes, setNotes] = useState('')
@@ -30,7 +32,7 @@ export default function WingspanForm({ onSave }) {
   const outcomeLabel =
     outcome === 'tie'
       ? "It's a tie!"
-      : `${PLAYER_LABELS[outcome]} wins!`
+      : `${playerLabels[outcome]} wins!`
 
   const outcomeColor =
     outcome === KAYRA ? 'text-teal' : outcome === MAT ? 'text-magenta' : 'text-cream/60'
@@ -55,8 +57,8 @@ export default function WingspanForm({ onSave }) {
         {/* Header */}
         <div className="grid grid-cols-[1fr_auto_auto] gap-2 px-4 py-3 bg-surface-2 border-b border-white/10">
           <div className="text-xs text-cream/50 uppercase tracking-wider">Category</div>
-          <div className="text-xs text-teal font-bold uppercase tracking-wider w-20 text-center">Kayra</div>
-          <div className="text-xs text-magenta font-bold uppercase tracking-wider w-20 text-center">Matt</div>
+          <div className="text-xs text-teal font-bold uppercase tracking-wider w-20 text-center">{playerLabels[KAYRA]}</div>
+          <div className="text-xs text-magenta font-bold uppercase tracking-wider w-20 text-center">{playerLabels[MAT]}</div>
         </div>
 
         {/* Rows */}

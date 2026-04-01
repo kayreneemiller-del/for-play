@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { KAYRA, MAT, PLAYER_LABELS } from '../constants/players'
-import { WINGSPAN, SPLENDOR, SKYTEAM } from '../constants/games'
+import { KAYRA, MAT } from '../constants/players'
+import { WINGSPAN, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS } from '../constants/games'
 
 function streak(results, value) {
   let max = 0
@@ -21,11 +21,15 @@ function currentStreak(results, value) {
   return cur
 }
 
-export function useStats(rounds) {
+export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', customGames = []) {
   return useMemo(() => {
     const wingspan = rounds.filter((r) => r.gameId === WINGSPAN)
     const splendor = rounds.filter((r) => r.gameId === SPLENDOR)
     const skyteam = rounds.filter((r) => r.gameId === SKYTEAM)
+    const jaipur = rounds.filter((r) => r.gameId === JAIPUR)
+    const patchwork = rounds.filter((r) => r.gameId === PATCHWORK)
+    const lostCities = rounds.filter((r) => r.gameId === LOST_CITIES)
+    const sevenWonders = rounds.filter((r) => r.gameId === SEVEN_WONDERS)
 
     // ── Wingspan ──────────────────────────────────────────────────────────
     const wOutcomes = wingspan.map((r) => r.outcome)
@@ -135,16 +139,57 @@ export function useStats(rounds) {
       }
     }
 
+    // ── New simple-score games ─────────────────────────────────────────────
+    const jaipurKayraWins = jaipur.filter((r) => r.outcome === KAYRA).length
+    const jaipurMatWins = jaipur.filter((r) => r.outcome === MAT).length
+    const jaipurLeader = jaipurKayraWins > jaipurMatWins ? KAYRA : jaipurMatWins > jaipurKayraWins ? MAT : 'tie'
+
+    const patchworkKayraWins = patchwork.filter((r) => r.outcome === KAYRA).length
+    const patchworkMatWins = patchwork.filter((r) => r.outcome === MAT).length
+    const patchworkLeader = patchworkKayraWins > patchworkMatWins ? KAYRA : patchworkMatWins > patchworkKayraWins ? MAT : 'tie'
+
+    const lcKayraWins = lostCities.filter((r) => r.outcome === KAYRA).length
+    const lcMatWins = lostCities.filter((r) => r.outcome === MAT).length
+    const lcLeader = lcKayraWins > lcMatWins ? KAYRA : lcMatWins > lcKayraWins ? MAT : 'tie'
+
+    const swKayraWins = sevenWonders.filter((r) => r.winner === KAYRA).length
+    const swMatWins = sevenWonders.filter((r) => r.winner === MAT).length
+    const swLeader = swKayraWins > swMatWins ? KAYRA : swMatWins > swKayraWins ? MAT : 'tie'
+
+    // ── Custom games ──────────────────────────────────────────────────────
+    const customStats = customGames.map((game) => {
+      const gameId = `custom_${game.id}`
+      const gameRounds = rounds.filter((r) => r.gameId === gameId)
+      const kayraWins = gameRounds.filter((r) => r.outcome === KAYRA).length
+      const matWins = gameRounds.filter((r) => r.outcome === MAT).length
+      const leader = kayraWins > matWins ? KAYRA : matWins > kayraWins ? MAT : 'tie'
+      return { game, total: gameRounds.length, kayraWins, matWins, leader }
+    })
+
     // ── Cumulative For-Play Leader ─────────────────────────────────────────
-    const compRounds = [...wingspan, ...splendor]
-    const totalKayraWins = wKayraWins + sKayraWins
-    const totalMatWins = wMatWins + sMatWins
-    const totalCompetitive = compRounds.length
+    // All competitive rounds (all games except skyteam)
+    const customCompRounds = rounds.filter((r) => r.gameId.startsWith('custom_'))
+    const allCompRounds = [
+      ...wingspan, ...splendor, ...jaipur, ...patchwork, ...lostCities, ...sevenWonders,
+      ...customCompRounds,
+    ]
+
+    const totalKayraWins = wKayraWins + sKayraWins + jaipurKayraWins + patchworkKayraWins + lcKayraWins + swKayraWins
+      + customStats.reduce((s, cs) => s + cs.kayraWins, 0)
+    const totalMatWins = wMatWins + sMatWins + jaipurMatWins + patchworkMatWins + lcMatWins + swMatWins
+      + customStats.reduce((s, cs) => s + cs.matWins, 0)
+    const totalCompetitive = allCompRounds.length
 
     // cross-game current streak
-    const allCompOutcomes = compRounds
+    const allCompOutcomes = allCompRounds
+      .slice()
       .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .map((r) => (r.gameId === WINGSPAN ? r.outcome : r.winner))
+      .map((r) => {
+        if (r.gameId === WINGSPAN || r.gameId === JAIPUR || r.gameId === PATCHWORK || r.gameId === LOST_CITIES || r.gameId.startsWith('custom_')) {
+          return r.outcome
+        }
+        return r.winner
+      })
     const kayraCurrentStreak = currentStreak(allCompOutcomes, KAYRA)
     const matCurrentStreak = currentStreak(allCompOutcomes, MAT)
 
@@ -166,10 +211,10 @@ export function useStats(rounds) {
       facts.push(`You've played ${rounds.length} total game${rounds.length !== 1 ? 's' : ''} together.`)
     }
     if (kayraCurrentStreak >= 3) {
-      facts.push(`${PLAYER_LABELS[KAYRA]} is on a ${kayraCurrentStreak}-game hot streak. Watch out, Matt.`)
+      facts.push(`${p1Name} is on a ${kayraCurrentStreak}-game hot streak. Watch out, ${p2Name}.`)
     }
     if (matCurrentStreak >= 3) {
-      facts.push(`${PLAYER_LABELS[MAT]} is on a ${matCurrentStreak}-game hot streak. Watch out, Kayra.`)
+      facts.push(`${p2Name} is on a ${matCurrentStreak}-game hot streak. Watch out, ${p1Name}.`)
     }
     if (landingRate !== null) {
       facts.push(`You crash the plane ${100 - landingRate}% of the time. ${100 - landingRate > 50 ? 'Yikes.' : 'Not bad!'}`)
@@ -181,10 +226,10 @@ export function useStats(rounds) {
       facts.push(`Biggest Wingspan blowout: ${biggestBlowout} points. Someone was on fire.`)
     }
     if (favMethod(kayraMethodCounts)) {
-      facts.push(`${PLAYER_LABELS[KAYRA]} tends to win Splendor Duel by ${favMethod(kayraMethodCounts)}. Noted.`)
+      facts.push(`${p1Name} tends to win Splendor Duel by ${favMethod(kayraMethodCounts)}. Noted.`)
     }
     if (favMethod(matMethodCounts)) {
-      facts.push(`${PLAYER_LABELS[MAT]} tends to win Splendor Duel by ${favMethod(matMethodCounts)}. Sneaky.`)
+      facts.push(`${p2Name} tends to win Splendor Duel by ${favMethod(matMethodCounts)}. Sneaky.`)
     }
     if (lastPlayed) {
       const days = Math.floor((new Date() - new Date(lastPlayed)) / 86400000)
@@ -246,7 +291,12 @@ export function useStats(rounds) {
         crashByDiff,
         totalByDiff,
       },
+      jaipur: { total: jaipur.length, kayraWins: jaipurKayraWins, matWins: jaipurMatWins, leader: jaipurLeader },
+      patchwork: { total: patchwork.length, kayraWins: patchworkKayraWins, matWins: patchworkMatWins, leader: patchworkLeader },
+      lostCities: { total: lostCities.length, kayraWins: lcKayraWins, matWins: lcMatWins, leader: lcLeader },
+      sevenWonders: { total: sevenWonders.length, kayraWins: swKayraWins, matWins: swMatWins, leader: swLeader },
+      customStats,
       facts,
     }
-  }, [rounds])
+  }, [rounds, p1Name, p2Name, customGames])
 }

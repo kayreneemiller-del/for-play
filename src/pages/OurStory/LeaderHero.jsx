@@ -1,10 +1,12 @@
-import { KAYRA, PLAYER_LABELS } from '../../constants/players'
+import { KAYRA } from '../../constants/players'
+import { usePlayerLabels } from '../../context/CoupleContext'
 
 export default function LeaderHero({ overall }) {
+  const playerLabels = usePlayerLabels()
   const { leader, kayraWins, matWins, total, kayraStreak, matStreak, lastPlayed } = overall
 
   const isTie = leader === 'tie'
-  const leaderName = isTie ? null : PLAYER_LABELS[leader]
+  const leaderName = isTie ? null : playerLabels[leader]
   const leaderWins = leader === KAYRA ? kayraWins : matWins
   const winPct = total > 0 ? Math.round((leaderWins / total) * 100) : 0
   const streak = leader === KAYRA ? kayraStreak : matStreak
@@ -66,8 +68,8 @@ export default function LeaderHero({ overall }) {
             {/* Score bar */}
             <div className="mt-4">
               <div className="flex justify-between text-xs text-cream/50 mb-1">
-                <span className="text-teal">Kayra {kayraWins}</span>
-                <span className="text-magenta">Matt {matWins}</span>
+                <span className="text-teal">{playerLabels.kayra} {kayraWins}</span>
+                <span className="text-magenta">{playerLabels.mat} {matWins}</span>
               </div>
               <div className="h-2 bg-white/10 rounded-full overflow-hidden flex">
                 {total > 0 && (

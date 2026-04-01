@@ -1,4 +1,5 @@
 import CollapsibleCard from '../../components/CollapsibleCard'
+import { usePlayerLabels } from '../../context/CoupleContext'
 
 const DIFF_LABELS = { green: '🟢 Green', yellow: '🟡 Yellow', red: '🔴 Red', black: '⚫ Black' }
 const DIFF_ORDER = ['green', 'yellow', 'red', 'black']
@@ -13,13 +14,14 @@ function StatRow({ label, value }) {
 }
 
 export default function SkyTeamStats({ stats }) {
+  const playerLabels = usePlayerLabels()
   const { total, landings, crashes, landingRate, currentLandingStreak,
     longestLandingStreak, hardestBeaten, favoriteMap, crashByDiff, totalByDiff } = stats
 
   const hasDiffData = DIFF_ORDER.some((d) => totalByDiff[d] > 0)
 
   return (
-    <CollapsibleCard title="✈️ Sky Team" subtitle={`The Dotsons · ${total} sessions`}>
+    <CollapsibleCard title="✈️ Sky Team" subtitle={`${playerLabels.kayra} & ${playerLabels.mat} · ${total} sessions`}>
       <StatRow
         label="Landings / Crashes"
         value={`${landings} ✅ / ${crashes} 💥${landingRate !== null ? ` (${landingRate}%)` : ''}`}
