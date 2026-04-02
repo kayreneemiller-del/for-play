@@ -8,7 +8,6 @@ import SkyTeamStats from './SkyTeamStats'
 import FunFacts from './FunFacts'
 import Accolades from './Accolades'
 import CollapsibleCard from '../../components/CollapsibleCard'
-import { KAYRA } from '../../constants/players'
 
 function StatRow({ label, value }) {
   return (

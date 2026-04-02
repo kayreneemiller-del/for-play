@@ -2,13 +2,13 @@ import { KAYRA, MAT } from '../../constants/players'
 import { useCouple, usePlayerLabels } from '../../context/CoupleContext'
 import { getDateNights } from '../../constants/dateNights'
 
-function trackLeft(progress) {
-  return `${12 + (progress / RACE_GOAL) * 76}%`
+function trackLeft(progress, raceGoal) {
+  return `${12 + (progress / raceGoal) * 76}%`
 }
 
-function Lane({ name, progress, wins, color, emoji }) {
-  const displayProgress = wins > 0 && progress === 0 ? RACE_GOAL : progress
-  const atFinish = displayProgress === RACE_GOAL
+function Lane({ name, progress, wins, color, emoji, raceGoal }) {
+  const displayProgress = wins > 0 && progress === 0 ? raceGoal : progress
+  const atFinish = displayProgress === raceGoal
 
   return (
     <div
@@ -31,7 +31,7 @@ function Lane({ name, progress, wins, color, emoji }) {
       <div className="absolute right-2 top-1/2 -translate-y-1/2 text-lg leading-none">🏁</div>
       <div
         className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-700 ease-out"
-        style={{ left: trackLeft(displayProgress) }}
+        style={{ left: trackLeft(displayProgress, raceGoal) }}
       >
         <span className={`block text-2xl leading-none ${atFinish ? '' : 'animate-trot'}`}>
           {atFinish ? '🎉' : emoji}
@@ -114,8 +114,8 @@ export default function HorseRace({ overall }) {
           ))}
         </div>
 
-        <Lane name={p1Name} progress={kayraProgress} wins={kayraWins} color="#00F5D4" emoji="🐴" />
-        <Lane name={p2Name} progress={matProgress} wins={matWins} color="#FF2D78" emoji="🐎" />
+        <Lane name={p1Name} progress={kayraProgress} wins={kayraWins} color="#00F5D4" emoji="🐴" raceGoal={RACE_GOAL} />
+        <Lane name={p2Name} progress={matProgress} wins={matWins} color="#FF2D78" emoji="🐎" raceGoal={RACE_GOAL} />
 
         <div className="flex justify-between text-xs text-cream/40 mt-1 px-1">
           <span className="text-teal">{kayraProgress}/{RACE_GOAL} wins</span>
