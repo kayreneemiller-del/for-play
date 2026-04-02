@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useCouple } from '../../context/CoupleContext'
 
-const EMOJI_OPTIONS = ['🦋', '🌟', '💎', '🔥', '👑', '🃏']
+const EMOJI_OPTIONS = ['🦋', '🌟', '💎', '🎯', '👑', '🃏']
 
 export default function Onboarding() {
   const { saveProfile } = useCouple()

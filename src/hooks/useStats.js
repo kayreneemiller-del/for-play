@@ -241,7 +241,7 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
       facts.push(`Your go-to Sky Team map is ${favoriteMap}.`)
     }
     if (totalKayraWins === totalMatWins && totalCompetitive >= 4) {
-      facts.push("You're perfectly matched. No one rules the bedroom… yet.")
+      facts.push("You're perfectly matched. The rivalry is officially tied.")
     }
 
     return {

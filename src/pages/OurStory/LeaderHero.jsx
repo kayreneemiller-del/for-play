@@ -33,7 +33,7 @@ export default function LeaderHero({ overall }) {
           <div className="text-center py-3">
             <div className="text-4xl mb-2">⚖️</div>
             <div className="font-display text-2xl text-cream">
-              It's a tie — no one rules the bedroom… yet.
+              It's a tie — the rivalry is perfectly balanced.
             </div>
             <div className="text-cream/50 text-sm mt-2">
               {kayraWins}W – {matWins}W across {total} games
