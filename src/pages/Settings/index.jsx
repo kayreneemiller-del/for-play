@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useCouple } from '../../context/CoupleContext'
 import { useCustomGames } from '../../hooks/useCustomGames'
 import { exportAllData, importAllData } from '../../db/queries'
+import { getDateNights } from '../../constants/dateNights'
 
 function Section({ title, children }) {
   return (
@@ -23,6 +24,12 @@ export default function Settings() {
   const [raceGoal, setRaceGoal] = useState(profile?.raceGoal ?? 5)
   const [nameSaved, setNameSaved] = useState(false)
 
+  const defaultPrizes = profile?.prizes?.length > 0
+    ? profile.prizes
+    : getDateNights(profile?.player1 ?? 'Player 1', profile?.player2 ?? 'Player 2')
+  const [prizes, setPrizes] = useState(defaultPrizes)
+  const [prizesSaved, setPrizesSaved] = useState(false)
+
   const [importModal, setImportModal] = useState(false)
   const [pendingImport, setPendingImport] = useState(null)
   const [clearModal, setClearModal] = useState(false)
@@ -38,6 +45,21 @@ export default function Settings() {
     })
     setNameSaved(true)
     setTimeout(() => setNameSaved(false), 2000)
+  }
+
+  const handleUpdatePrize = (index, field, value) => {
+    setPrizes(prev => prev.map((p, i) => i === index ? { ...p, [field]: value } : p))
+  }
+  const handleAddPrize = () => {
+    setPrizes(prev => [...prev, { p1Wins: '', p2Wins: '' }])
+  }
+  const handleDeletePrize = (index) => {
+    setPrizes(prev => prev.filter((_, i) => i !== index))
+  }
+  const handleSavePrizes = async () => {
+    await saveProfile({ ...profile, prizes })
+    setPrizesSaved(true)
+    setTimeout(() => setPrizesSaved(false), 2000)
   }
 
   const handleExport = async () => {
@@ -159,6 +181,61 @@ export default function Settings() {
         <p className="text-cream/40 text-xs">
           Export creates a backup file. Import replaces all your data from a backup.
         </p>
+      </Section>
+
+      {/* Date Night Prizes */}
+      <Section title="Date Night Prizes">
+        <p className="text-cream/50 text-xs -mt-2">These prizes cycle each time a race is won. Edit, reorder, or add your own.</p>
+        <div className="space-y-3">
+          {prizes.map((prize, i) => (
+            <div key={i} className="bg-surface-2 border border-white/10 rounded-xl p-3 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-gold text-xs font-bold uppercase tracking-widest">Prize #{i + 1}</span>
+                <button
+                  type="button"
+                  onClick={() => handleDeletePrize(i)}
+                  className="text-neon-red text-xs px-2 py-0.5 rounded-lg hover:bg-neon-red/10 transition-colors"
+                >
+                  Remove
+                </button>
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-teal/80 uppercase tracking-wide">{name1 || 'Player 1'} wins →</label>
+                <input
+                  type="text"
+                  value={prize.p1Wins}
+                  onChange={(e) => handleUpdatePrize(i, 'p1Wins', e.target.value)}
+                  placeholder="What does Player 1 win?"
+                  className="bg-surface border border-white/15 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-teal"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs text-magenta/80 uppercase tracking-wide">{name2 || 'Player 2'} wins →</label>
+                <input
+                  type="text"
+                  value={prize.p2Wins}
+                  onChange={(e) => handleUpdatePrize(i, 'p2Wins', e.target.value)}
+                  placeholder="What does Player 2 win?"
+                  className="bg-surface border border-white/15 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-magenta"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={handleAddPrize}
+          className="w-full py-2 rounded-xl border border-dashed border-white/20 text-cream/50 text-sm hover:border-gold/40 hover:text-gold/70 transition-colors"
+        >
+          + Add Prize
+        </button>
+        <button
+          type="button"
+          onClick={handleSavePrizes}
+          className="w-full py-2.5 rounded-full bg-gold text-surface font-bold text-sm hover:brightness-110 active:scale-95 transition-all duration-150"
+        >
+          {prizesSaved ? '✓ Prizes Saved!' : 'Save Prizes'}
+        </button>
       </Section>
 
       {/* Custom Games */}

@@ -56,7 +56,7 @@ export default function HorseRace({ overall }) {
   const matRacesWon = Math.floor(matWins / RACE_GOAL)
 
   const totalRacesFinished = kayraRacesWon + matRacesWon
-  const prizes = getDateNights(p1Name, p2Name)
+  const prizes = profile?.prizes?.length > 0 ? profile.prizes : getDateNights(p1Name, p2Name)
   const prize = prizes[totalRacesFinished % prizes.length]
 
   return (
