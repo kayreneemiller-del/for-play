@@ -17,12 +17,17 @@ export async function deleteRound(id) {
 
 export async function getCoupleProfile() {
   const db = await getDB()
-  return db.get('coupleProfile', 'profile')
+  const tx = db.transaction('coupleProfile', 'readonly')
+  const result = await tx.store.get('profile')
+  await tx.done
+  return result
 }
 
 export async function saveCoupleProfile(profile) {
   const db = await getDB()
-  return db.put('coupleProfile', profile, 'profile')
+  const tx = db.transaction('coupleProfile', 'readwrite')
+  await tx.store.put(profile, 'profile')
+  await tx.done
 }
 
 export async function getAllCustomGames() {

@@ -20,6 +20,7 @@ export default function Settings() {
 
   const [name1, setName1] = useState(profile?.player1 ?? '')
   const [name2, setName2] = useState(profile?.player2 ?? '')
+  const [raceGoal, setRaceGoal] = useState(profile?.raceGoal ?? 5)
   const [nameSaved, setNameSaved] = useState(false)
 
   const [importModal, setImportModal] = useState(false)
@@ -29,7 +30,12 @@ export default function Settings() {
   const fileRef = useRef(null)
 
   const handleSaveNames = async () => {
-    await saveProfile({ ...profile, player1: name1.trim() || profile?.player1, player2: name2.trim() || profile?.player2 })
+    await saveProfile({
+      ...profile,
+      player1: name1.trim() || profile?.player1,
+      player2: name2.trim() || profile?.player2,
+      raceGoal,
+    })
     setNameSaved(true)
     setTimeout(() => setNameSaved(false), 2000)
   }
@@ -103,12 +109,31 @@ export default function Settings() {
             className="bg-surface-2 border border-white/20 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-gold"
           />
         </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-xs text-cream/70 uppercase tracking-wider">🏇 Date night goal (wins)</label>
+          <div className="flex gap-2">
+            {[3, 5, 7, 10].map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setRaceGoal(n)}
+                className={`flex-1 py-2 rounded-xl font-display text-lg transition-all duration-150 ${
+                  raceGoal === n
+                    ? 'bg-gold/20 border-2 border-gold text-gold'
+                    : 'bg-surface-2 border border-white/10 text-white/40'
+                }`}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
         <button
           type="button"
           onClick={handleSaveNames}
           className="w-full py-2.5 rounded-full bg-gold text-surface font-bold text-sm hover:brightness-110 active:scale-95 transition-all duration-150"
         >
-          {nameSaved ? '✓ Saved!' : 'Save Names'}
+          {nameSaved ? '✓ Saved!' : 'Save Changes'}
         </button>
       </Section>
 

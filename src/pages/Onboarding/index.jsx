@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useCouple } from '../../context/CoupleContext'
 
 const EMOJI_OPTIONS = ['🦋', '🌟', '💎', '🎯', '👑', '🃏']
+const GOAL_OPTIONS = [3, 5, 7, 10]
 
 export default function Onboarding() {
   const { saveProfile } = useCouple()
@@ -9,6 +10,7 @@ export default function Onboarding() {
   const [name2, setName2] = useState('')
   const [emoji1, setEmoji1] = useState('🦋')
   const [emoji2, setEmoji2] = useState('👑')
+  const [raceGoal, setRaceGoal] = useState(5)
   const [saving, setSaving] = useState(false)
 
   const canSubmit = name1.trim().length > 0 && name2.trim().length > 0
@@ -21,6 +23,7 @@ export default function Onboarding() {
       player2: name2.trim(),
       emoji1,
       emoji2,
+      raceGoal,
       createdAt: Date.now(),
     })
     setSaving(false)
@@ -99,6 +102,32 @@ export default function Onboarding() {
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Race Goal */}
+          <div className="space-y-3">
+            <label className="text-xs text-gold/70 uppercase tracking-widest font-bold">
+              🏇 Date night goal — wins to earn a prize
+            </label>
+            <div className="flex gap-2">
+              {GOAL_OPTIONS.map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => setRaceGoal(n)}
+                  className={`flex-1 py-3 rounded-xl font-display text-xl transition-all duration-150 ${
+                    raceGoal === n
+                      ? 'bg-gold/20 border-2 border-gold text-gold scale-105'
+                      : 'bg-surface-2 border-2 border-white/10 text-white/40 hover:border-white/30'
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+            <p className="text-cream/40 text-xs text-center">
+              First to {raceGoal} wins picks the date night activity
+            </p>
           </div>
 
           {/* Submit */}

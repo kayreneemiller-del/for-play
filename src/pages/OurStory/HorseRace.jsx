@@ -1,8 +1,6 @@
 import { KAYRA, MAT } from '../../constants/players'
-import { usePlayerLabels } from '../../context/CoupleContext'
+import { useCouple, usePlayerLabels } from '../../context/CoupleContext'
 import { getDateNights } from '../../constants/dateNights'
-
-const RACE_GOAL = 5
 
 function trackLeft(progress) {
   return `${12 + (progress / RACE_GOAL) * 76}%`
@@ -44,9 +42,11 @@ function Lane({ name, progress, wins, color, emoji }) {
 }
 
 export default function HorseRace({ overall }) {
+  const { profile } = useCouple()
   const playerLabels = usePlayerLabels()
   const { kayraWins, matWins } = overall
 
+  const RACE_GOAL = profile?.raceGoal ?? 5
   const p1Name = playerLabels[KAYRA]
   const p2Name = playerLabels[MAT]
 
