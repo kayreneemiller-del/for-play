@@ -1,52 +1,80 @@
-export function getDateNights(p1, p2) {
+export const PRIZE_SUGGESTIONS = [
+  'Partner takes you for ice cream 🍦',
+  'Partner plans a full surprise date night, start to finish 🌹',
+  'Breakfast in bed, made by Partner 🥞',
+  'Partner handles all chores for a week 🧹',
+  'Fancy dinner out, Partner\'s treat 🍷',
+  'Partner writes you a handwritten love letter 💌',
+  'Flowers, chocolate, and a slow dance in the kitchen 💃',
+  'Partner books a hotel night — you pick the city 🏨',
+  'Partner sets up a backyard picnic, fully decorated 🧺',
+  'Partner cooks a full 3-course dinner, dressed up 🍽️',
+  'Movie night — you pick, Partner provides snacks & zero opinions 🎬',
+  'Partner plans the whole evening — you just show up 🎉',
+  'Partner gives you a 30-minute back rub, no complaining 💆',
+  'Partner plans a no-budget, no-veto date night 💸',
+  'Partner sets up a cozy game night — snacks, drinks, full ambiance 🕯️',
+  'Partner reads you a bedtime story — your choice of book 📚',
+  'Partner makes your favourite meal from scratch 🍳',
+  'Partner loses screen time for a night — quality time only 📵',
+  'Partner owes you one favour, no questions asked 🤝',
+  'Partner plans a spa night — face masks, snacks, the works 🧖',
+  'You pick the next board game to buy — Partner\'s treat 🎲',
+  'Partner takes you on a day trip — you choose the destination 🗺️',
+  'Partner plans a morning together — coffee, walk, no phones ☕',
+  'Partner buys you a small gift, totally their idea 🎁',
+  'Partner plans a picnic lunch somewhere new 🌿',
+]
+
+export function getDateNights() {
   return [
     {
-      p1Wins: `${p2} takes ${p1} for ice cream 🍦`,
-      p2Wins: `${p1} takes ${p2} to Sunrise Sunset 🌅`,
+      p1Wins: 'Partner takes you for ice cream 🍦',
+      p2Wins: 'Partner plans a full surprise date night, start to finish 🌹',
     },
     {
-      p1Wins: `${p2} plans a full surprise date night, start to finish 🌹`,
-      p2Wins: `${p1} picks the next board game — ${p2} buys it 🎲`,
+      p1Wins: 'Breakfast in bed, made by Partner 🥞',
+      p2Wins: 'Partner handles all chores for a week 🧹',
     },
     {
-      p1Wins: `Breakfast in bed, made by ${p2} 🥞`,
-      p2Wins: `${p1} owes ${p2} a 30-minute back rub, no complaining 💆`,
+      p1Wins: 'Movie night — you pick, Partner provides snacks & zero opinions 🎬',
+      p2Wins: 'Fancy dinner out, Partner\'s treat 🍷',
     },
     {
-      p1Wins: `Movie night — ${p1} picks, ${p2} provides snacks & zero opinions 🎬`,
-      p2Wins: `${p1} plans the whole evening — ${p2} just shows up 🎉`,
+      p1Wins: 'Partner writes you a handwritten love letter 💌',
+      p2Wins: 'Flowers, chocolate, and a slow dance in the kitchen 💃',
     },
     {
-      p1Wins: `${p2} handles all chores for a week 🧹`,
-      p2Wins: `${p1} plans a no-budget, no-veto date night 💸`,
+      p1Wins: 'Partner books a hotel night — you pick the city 🏨',
+      p2Wins: 'Partner cooks a full 3-course dinner, dressed up 🍽️',
     },
     {
-      p1Wins: `Fancy dinner out, ${p2}'s treat 🍷`,
-      p2Wins: `${p1} plans a full spa night — face masks, snacks, the works 🧖`,
+      p1Wins: 'Partner sets up a backyard picnic, fully decorated 🧺',
+      p2Wins: 'Partner plans a spa night — face masks, snacks, the works 🧖',
     },
     {
-      p1Wins: `${p2} writes ${p1} a handwritten love letter 💌`,
-      p2Wins: `${p1} writes ${p2} a handwritten love letter 💌`,
+      p1Wins: 'Partner plans a no-budget, no-veto date night 💸',
+      p2Wins: 'Partner gives you a 30-minute back rub, no complaining 💆',
     },
     {
-      p1Wins: `Flowers, chocolate, slow dance in the kitchen 💃`,
-      p2Wins: `${p1} picks the next board game to buy — no questions asked 🎲`,
+      p1Wins: 'Partner sets up a cozy game night — snacks, drinks, full ambiance 🕯️',
+      p2Wins: 'You pick the next board game to buy — Partner\'s treat 🎲',
     },
     {
-      p1Wins: `${p2} books a hotel night — ${p1} picks the city 🏨`,
-      p2Wins: `${p1} cooks ${p2} a full 3-course dinner, dressed up 🍽️`,
+      p1Wins: 'Partner owes you one favour, no questions asked 🤝',
+      p2Wins: 'Partner plans the whole evening — you just show up 🎉',
     },
     {
-      p1Wins: `${p2} sets up a backyard picnic, fully decorated 🧺`,
-      p2Wins: `${p1} sets up a cozy game night — snacks, drinks, ambiance 🕯️`,
+      p1Wins: 'Partner makes your favourite meal from scratch 🍳',
+      p2Wins: 'Partner reads you a bedtime story — your choice of book 📚',
     },
     {
-      p1Wins: `${p2} reads ${p1} a bedtime story — their choice of book 📚`,
-      p2Wins: `${p1} makes ${p2} their favorite meal from scratch 🍳`,
+      p1Wins: 'Partner takes you on a day trip — you choose the destination 🗺️',
+      p2Wins: 'Partner loses screen time for a night — quality time only 📵',
     },
     {
-      p1Wins: `${p2} loses screen time for a night — quality time only 📵`,
-      p2Wins: `${p1} owes ${p2} one favour of their choice — no vetoes 🤝`,
+      p1Wins: 'Partner plans a morning together — coffee, walk, no phones ☕',
+      p2Wins: 'Partner buys you a small gift, totally their idea 🎁',
     },
   ]
 }

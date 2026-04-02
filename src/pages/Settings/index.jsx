@@ -2,7 +2,46 @@ import { useState, useRef } from 'react'
 import { useCouple } from '../../context/CoupleContext'
 import { useCustomGames } from '../../hooks/useCustomGames'
 import { exportAllData, importAllData } from '../../db/queries'
-import { getDateNights } from '../../constants/dateNights'
+import { getDateNights, PRIZE_SUGGESTIONS } from '../../constants/dateNights'
+
+function PrizeInput({ value, onChange, placeholder, accentClass }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="relative">
+      <div className="flex gap-1">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className={`flex-1 bg-surface border border-white/15 rounded-lg px-3 py-2 text-white text-sm focus:outline-none ${accentClass}`}
+        />
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          title="Browse suggestions"
+          className="px-2.5 rounded-lg bg-surface-2 border border-white/10 text-cream/50 hover:text-gold hover:border-gold/40 transition-colors text-sm"
+        >
+          💡
+        </button>
+      </div>
+      {open && (
+        <div className="absolute z-20 left-0 right-0 mt-1 bg-surface border border-white/15 rounded-xl shadow-xl max-h-52 overflow-y-auto">
+          {PRIZE_SUGGESTIONS.map((s, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => { onChange(s); setOpen(false) }}
+              className="w-full text-left px-3 py-2 text-sm text-cream/80 hover:bg-white/5 hover:text-white transition-colors border-b border-white/5 last:border-0"
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 function Section({ title, children }) {
   return (
@@ -201,22 +240,20 @@ export default function Settings() {
               </div>
               <div className="flex flex-col gap-1">
                 <label className="text-xs text-teal/80 uppercase tracking-wide">{name1 || 'Player 1'} wins →</label>
-                <input
-                  type="text"
+                <PrizeInput
                   value={prize.p1Wins}
-                  onChange={(e) => handleUpdatePrize(i, 'p1Wins', e.target.value)}
+                  onChange={(v) => handleUpdatePrize(i, 'p1Wins', v)}
                   placeholder="What does Player 1 win?"
-                  className="bg-surface border border-white/15 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-teal"
+                  accentClass="focus:border-teal"
                 />
               </div>
               <div className="flex flex-col gap-1">
                 <label className="text-xs text-magenta/80 uppercase tracking-wide">{name2 || 'Player 2'} wins →</label>
-                <input
-                  type="text"
+                <PrizeInput
                   value={prize.p2Wins}
-                  onChange={(e) => handleUpdatePrize(i, 'p2Wins', e.target.value)}
+                  onChange={(v) => handleUpdatePrize(i, 'p2Wins', v)}
                   placeholder="What does Player 2 win?"
-                  className="bg-surface border border-white/15 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-magenta"
+                  accentClass="focus:border-magenta"
                 />
               </div>
             </div>
