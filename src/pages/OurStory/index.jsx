@@ -62,6 +62,14 @@ export default function OurStory({ rounds, customGames }) {
         </CollapsibleCard>
       )}
 
+      {stats.onitama.total > 0 && (
+        <CollapsibleCard title="🥋 Onitama" subtitle={`${stats.onitama.leader === 'tie' ? 'Tied' : `${playerLabels[stats.onitama.leader]} leads`} · ${stats.onitama.total} rounds`}>
+          <StatRow label="Record" value={`${p1Name} ${stats.onitama.kayraWins} – ${p2Name} ${stats.onitama.matWins}`} />
+          <StatRow label="Way of the Stone wins" value={stats.onitama.methodCounts.stone} />
+          <StatRow label="Way of the Stream wins" value={stats.onitama.methodCounts.stream} />
+        </CollapsibleCard>
+      )}
+
       {stats.customStats.map(({ game, total, kayraWins, matWins, leader }) => (
         total > 0 && (
           <CollapsibleCard key={game.id} title={`${game.emoji ?? '🎯'} ${game.name}`} subtitle={`${leader === 'tie' ? 'Tied' : `${playerLabels[leader]} leads`} · ${total} rounds`}>

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { KAYRA, MAT } from '../constants/players'
-import { WINGSPAN, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS } from '../constants/games'
+import { WINGSPAN, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA } from '../constants/games'
 
 function streak(results, value) {
   let max = 0
@@ -30,6 +30,7 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
     const patchwork = rounds.filter((r) => r.gameId === PATCHWORK)
     const lostCities = rounds.filter((r) => r.gameId === LOST_CITIES)
     const sevenWonders = rounds.filter((r) => r.gameId === SEVEN_WONDERS)
+    const onitama = rounds.filter((r) => r.gameId === ONITAMA)
 
     // ── Wingspan ──────────────────────────────────────────────────────────
     const wOutcomes = wingspan.map((r) => r.outcome)
@@ -156,6 +157,14 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
     const swMatWins = sevenWonders.filter((r) => r.winner === MAT).length
     const swLeader = swKayraWins > swMatWins ? KAYRA : swMatWins > swKayraWins ? MAT : 'tie'
 
+    const oniKayraWins = onitama.filter((r) => r.winner === KAYRA).length
+    const oniMatWins = onitama.filter((r) => r.winner === MAT).length
+    const oniLeader = oniKayraWins > oniMatWins ? KAYRA : oniMatWins > oniKayraWins ? MAT : 'tie'
+    const oniMethodCounts = { stone: 0, stream: 0 }
+    for (const r of onitama) {
+      if (r.winMethod) oniMethodCounts[r.winMethod] = (oniMethodCounts[r.winMethod] || 0) + 1
+    }
+
     // ── Custom games ──────────────────────────────────────────────────────
     const customStats = customGames.map((game) => {
       const gameId = `custom_${game.id}`
@@ -170,13 +179,13 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
     // All competitive rounds (all games except skyteam)
     const customCompRounds = rounds.filter((r) => r.gameId.startsWith('custom_'))
     const allCompRounds = [
-      ...wingspan, ...splendor, ...jaipur, ...patchwork, ...lostCities, ...sevenWonders,
+      ...wingspan, ...splendor, ...jaipur, ...patchwork, ...lostCities, ...sevenWonders, ...onitama,
       ...customCompRounds,
     ]
 
-    const totalKayraWins = wKayraWins + sKayraWins + jaipurKayraWins + patchworkKayraWins + lcKayraWins + swKayraWins
+    const totalKayraWins = wKayraWins + sKayraWins + jaipurKayraWins + patchworkKayraWins + lcKayraWins + swKayraWins + oniKayraWins
       + customStats.reduce((s, cs) => s + cs.kayraWins, 0)
-    const totalMatWins = wMatWins + sMatWins + jaipurMatWins + patchworkMatWins + lcMatWins + swMatWins
+    const totalMatWins = wMatWins + sMatWins + jaipurMatWins + patchworkMatWins + lcMatWins + swMatWins + oniMatWins
       + customStats.reduce((s, cs) => s + cs.matWins, 0)
     const totalCompetitive = allCompRounds.length
 
@@ -295,6 +304,7 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
       patchwork: { total: patchwork.length, kayraWins: patchworkKayraWins, matWins: patchworkMatWins, leader: patchworkLeader },
       lostCities: { total: lostCities.length, kayraWins: lcKayraWins, matWins: lcMatWins, leader: lcLeader },
       sevenWonders: { total: sevenWonders.length, kayraWins: swKayraWins, matWins: swMatWins, leader: swLeader },
+      onitama: { total: onitama.length, kayraWins: oniKayraWins, matWins: oniMatWins, leader: oniLeader, methodCounts: oniMethodCounts },
       customStats,
       facts,
     }
