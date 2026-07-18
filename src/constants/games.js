@@ -5,6 +5,7 @@ export const JAIPUR = 'jaipur'
 export const PATCHWORK = 'patchwork'
 export const LOST_CITIES = 'lost_cities'
 export const SEVEN_WONDERS = '7wonders'
+export const ONITAMA = 'onitama'
 
 export const GAME_CONFIG = {
   [WINGSPAN]: {
@@ -57,6 +58,13 @@ export const GAME_CONFIG = {
     type: 'competitive',
     color: 'gold',
   },
+  [ONITAMA]: {
+    id: ONITAMA,
+    label: 'Onitama',
+    emoji: '🥋',
+    type: 'competitive',
+    color: 'teal',
+  },
 }
 
 export const SPLENDOR_WIN_METHODS = [
@@ -69,6 +77,11 @@ export const SEVEN_WONDERS_WIN_METHODS = [
   { value: 'military', label: 'Military Supremacy — Advanced your shield token' },
   { value: 'science', label: 'Science Supremacy — Collected 6 science symbols' },
   { value: 'civilian', label: 'Civilian Victory — Most victory points' },
+]
+
+export const ONITAMA_WIN_METHODS = [
+  { value: 'stone', label: "Way of the Stone — Captured the opponent's Master" },
+  { value: 'stream', label: "Way of the Stream — Moved your Master to their Temple Arch" },
 ]
 
 export const SKYTEAM_DIFFICULTIES = [
