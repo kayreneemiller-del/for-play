@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { KAYRA, MAT } from '../constants/players'
-import { WINGSPAN, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA } from '../constants/games'
+import { WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA } from '../constants/games'
 
 function streak(results, value) {
   let max = 0
@@ -24,6 +24,7 @@ function currentStreak(results, value) {
 export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', customGames = []) {
   return useMemo(() => {
     const wingspan = rounds.filter((r) => r.gameId === WINGSPAN)
+    const wingspanPocket = rounds.filter((r) => r.gameId === WINGSPAN_POCKET)
     const splendor = rounds.filter((r) => r.gameId === SPLENDOR)
     const skyteam = rounds.filter((r) => r.gameId === SKYTEAM)
     const jaipur = rounds.filter((r) => r.gameId === JAIPUR)
@@ -78,6 +79,52 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
 
     const wingspanLeader =
       wKayraWins > wMatWins ? KAYRA : wMatWins > wKayraWins ? MAT : 'tie'
+
+    // ── Wingspan Pocket ───────────────────────────────────────────────────
+    const wpOutcomes = wingspanPocket.map((r) => r.outcome)
+    const wpKayraWins = wpOutcomes.filter((o) => o === KAYRA).length
+    const wpMatWins = wpOutcomes.filter((o) => o === MAT).length
+    const wpTies = wpOutcomes.filter((o) => o === 'tie').length
+
+    const allPocketScores = wingspanPocket.flatMap((r) =>
+      [KAYRA, MAT].map((p) => ({ player: p, total: r.scores[p]?.total ?? 0, round: r }))
+    )
+    const highestPocketScore = allPocketScores.reduce(
+      (best, s) => (s.total > (best?.total ?? -1) ? s : best),
+      null
+    )
+
+    const wpKayraAvg = wingspanPocket.length
+      ? Math.round(wingspanPocket.reduce((s, r) => s + (r.scores[KAYRA]?.total ?? 0), 0) / wingspanPocket.length)
+      : null
+    const wpMatAvg = wingspanPocket.length
+      ? Math.round(wingspanPocket.reduce((s, r) => s + (r.scores[MAT]?.total ?? 0), 0) / wingspanPocket.length)
+      : null
+
+    const wpKayraStreak = streak(wpOutcomes, KAYRA)
+    const wpMatStreak = streak(wpOutcomes, MAT)
+
+    const wpMargins = wingspanPocket.map((r) =>
+      Math.abs((r.scores[KAYRA]?.total ?? 0) - (r.scores[MAT]?.total ?? 0))
+    )
+    const wpClosestGame = wpMargins.length ? Math.min(...wpMargins) : null
+    const wpBiggestBlowout = wpMargins.length ? Math.max(...wpMargins) : null
+
+    const wpCategoryHighs = {}
+    const wpCats = ['birds', 'eggs', 'tucked_cards', 'goals']
+    for (const cat of wpCats) {
+      let best = null
+      for (const r of wingspanPocket) {
+        for (const p of [KAYRA, MAT]) {
+          const val = r.scores[p]?.[cat] ?? 0
+          if (best === null || val > best.val) best = { val, player: p }
+        }
+      }
+      if (best) wpCategoryHighs[cat] = best
+    }
+
+    const wingspanPocketLeader =
+      wpKayraWins > wpMatWins ? KAYRA : wpMatWins > wpKayraWins ? MAT : 'tie'
 
     // ── Splendor Duel ─────────────────────────────────────────────────────
     const sKayraWins = splendor.filter((r) => r.winner === KAYRA).length
@@ -179,13 +226,13 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
     // All competitive rounds (all games except skyteam)
     const customCompRounds = rounds.filter((r) => r.gameId.startsWith('custom_'))
     const allCompRounds = [
-      ...wingspan, ...splendor, ...jaipur, ...patchwork, ...lostCities, ...sevenWonders, ...onitama,
+      ...wingspan, ...wingspanPocket, ...splendor, ...jaipur, ...patchwork, ...lostCities, ...sevenWonders, ...onitama,
       ...customCompRounds,
     ]
 
-    const totalKayraWins = wKayraWins + sKayraWins + jaipurKayraWins + patchworkKayraWins + lcKayraWins + swKayraWins + oniKayraWins
+    const totalKayraWins = wKayraWins + wpKayraWins + sKayraWins + jaipurKayraWins + patchworkKayraWins + lcKayraWins + swKayraWins + oniKayraWins
       + customStats.reduce((s, cs) => s + cs.kayraWins, 0)
-    const totalMatWins = wMatWins + sMatWins + jaipurMatWins + patchworkMatWins + lcMatWins + swMatWins + oniMatWins
+    const totalMatWins = wMatWins + wpMatWins + sMatWins + jaipurMatWins + patchworkMatWins + lcMatWins + swMatWins + oniMatWins
       + customStats.reduce((s, cs) => s + cs.matWins, 0)
     const totalCompetitive = allCompRounds.length
 
@@ -194,7 +241,7 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
       .slice()
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .map((r) => {
-        if (r.gameId === WINGSPAN || r.gameId === JAIPUR || r.gameId === PATCHWORK || r.gameId === LOST_CITIES || r.gameId.startsWith('custom_')) {
+        if (r.gameId === WINGSPAN || r.gameId === WINGSPAN_POCKET || r.gameId === JAIPUR || r.gameId === PATCHWORK || r.gameId === LOST_CITIES || r.gameId.startsWith('custom_')) {
           return r.outcome
         }
         return r.winner
@@ -277,6 +324,21 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
         closestGame,
         biggestBlowout,
         categoryHighs,
+      },
+      wingspanPocket: {
+        leader: wingspanPocketLeader,
+        kayraWins: wpKayraWins,
+        matWins: wpMatWins,
+        ties: wpTies,
+        total: wingspanPocket.length,
+        highestScore: highestPocketScore,
+        kayraAvg: wpKayraAvg,
+        matAvg: wpMatAvg,
+        kayraStreak: wpKayraStreak,
+        matStreak: wpMatStreak,
+        closestGame: wpClosestGame,
+        biggestBlowout: wpBiggestBlowout,
+        categoryHighs: wpCategoryHighs,
       },
       splendor: {
         leader: splendorLeader,

@@ -3,6 +3,7 @@ import { useCouple, usePlayerLabels } from '../../context/CoupleContext'
 import LeaderHero from './LeaderHero'
 import HorseRace from './HorseRace'
 import WingspanStats from './WingspanStats'
+import WingspanPocketStats from './WingspanPocketStats'
 import SplendorStats from './SplendorStats'
 import SkyTeamStats from './SkyTeamStats'
 import FunFacts from './FunFacts'
@@ -38,6 +39,7 @@ export default function OurStory({ rounds, customGames }) {
       <FunFacts facts={stats.facts} />
 
       <WingspanStats stats={stats.wingspan} />
+      <WingspanPocketStats stats={stats.wingspanPocket} />
       <SplendorStats stats={stats.splendor} />
       <SkyTeamStats stats={stats.skyteam} />
 
