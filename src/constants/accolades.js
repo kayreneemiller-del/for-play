@@ -1,5 +1,5 @@
 import { KAYRA, MAT } from './players'
-import { WINGSPAN, SPLENDOR, SKYTEAM } from './games'
+import { WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM } from './games'
 
 export const ACCOLADES = [
   {
@@ -8,6 +8,27 @@ export const ACCOLADES = [
     emoji: '🪺',
     hint: 'Log your first Wingspan game',
     unlock: ({ rounds }) => rounds.some((r) => r.gameId === WINGSPAN),
+  },
+  {
+    id: 'pocket_debut',
+    name: 'Pocket Birder',
+    emoji: '🐣',
+    hint: 'Log your first Wingspan Pocket game',
+    unlock: ({ rounds }) => rounds.some((r) => r.gameId === WINGSPAN_POCKET),
+  },
+  {
+    id: 'pocket_ace',
+    name: 'Pocket Rocket',
+    emoji: '🧳',
+    hint: 'Score 50+ points in a single Wingspan Pocket game',
+    unlock: ({ rounds }) =>
+      rounds
+        .filter((r) => r.gameId === WINGSPAN_POCKET)
+        .some(
+          (r) =>
+            (r.scores[KAYRA]?.total ?? 0) >= 50 ||
+            (r.scores[MAT]?.total ?? 0) >= 50
+        ),
   },
   {
     id: 'gem_hoarder',

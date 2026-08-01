@@ -1,4 +1,5 @@
 export const WINGSPAN = 'wingspan'
+export const WINGSPAN_POCKET = 'wingspan_pocket'
 export const SPLENDOR = 'splendor'
 export const SKYTEAM = 'skyteam'
 export const JAIPUR = 'jaipur'
@@ -12,6 +13,13 @@ export const GAME_CONFIG = {
     id: WINGSPAN,
     label: 'Wingspan Americas',
     emoji: '🦅',
+    type: 'competitive',
+    color: 'teal',
+  },
+  [WINGSPAN_POCKET]: {
+    id: WINGSPAN_POCKET,
+    label: 'Wingspan Pocket',
+    emoji: '🐦',
     type: 'competitive',
     color: 'teal',
   },
@@ -100,4 +108,11 @@ export const WINGSPAN_CATEGORIES = [
   { key: 'tucked_cards', label: 'Tucked Cards' },
   { key: 'nectar', label: 'Nectar' },
   { key: 'hummingbird', label: 'Hummingbird Total' },
+]
+
+export const WINGSPAN_POCKET_CATEGORIES = [
+  { key: 'birds', label: 'Bird Points' },
+  { key: 'eggs', label: 'Eggs' },
+  { key: 'tucked_cards', label: 'Tucked Cards' },
+  { key: 'goals', label: 'Goals' },
 ]
