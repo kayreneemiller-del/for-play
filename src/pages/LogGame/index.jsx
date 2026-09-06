@@ -6,12 +6,13 @@ import SkyTeamForm from './SkyTeamForm'
 import SimpleScoreForm from './SimpleScoreForm'
 import SevenWondersDuelForm from './SevenWondersDuelForm'
 import OnitamaForm from './OnitamaForm'
+import AzulForm from './AzulForm'
 import CreateCustomGameForm from './CreateCustomGameForm'
 import WinnerBurst from '../../components/WinnerBurst'
-import { GAME_CONFIG, WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA } from '../../constants/games'
+import { GAME_CONFIG, WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA, AZUL } from '../../constants/games'
 import { usePlayerLabels } from '../../context/CoupleContext'
 
-const BUILTIN_MAIN = [WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM]
+const BUILTIN_MAIN = [WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM, AZUL]
 const BUILTIN_MORE = [JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA]
 
 const CARD_COLOR = {
@@ -161,6 +162,7 @@ export default function LogGame({ onSave, customGames, onAddCustomGame }) {
           {selectedGame === SKYTEAM && <SkyTeamForm onSave={handleSave} />}
           {selectedGame === SEVEN_WONDERS && <SevenWondersDuelForm onSave={handleSave} />}
           {selectedGame === ONITAMA && <OnitamaForm onSave={handleSave} />}
+          {selectedGame === AZUL && <AzulForm onSave={handleSave} />}
           {(selectedGame === JAIPUR || selectedGame === PATCHWORK) && (
             <SimpleScoreForm gameId={selectedGame} onSave={handleSave} />
           )}

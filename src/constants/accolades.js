@@ -1,5 +1,5 @@
 import { KAYRA, MAT } from './players'
-import { WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM } from './games'
+import { WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM, AZUL } from './games'
 
 export const ACCOLADES = [
   {
@@ -28,6 +28,55 @@ export const ACCOLADES = [
           (r) =>
             (r.scores[KAYRA]?.total ?? 0) >= 50 ||
             (r.scores[MAT]?.total ?? 0) >= 50
+        ),
+  },
+  {
+    id: 'azul_debut',
+    name: 'First Tile',
+    emoji: '🔷',
+    hint: 'Log your first Azul game',
+    unlock: ({ rounds }) => rounds.some((r) => r.gameId === AZUL),
+  },
+  {
+    id: 'mosaic_master',
+    name: 'Mosaic Master',
+    emoji: '🏺',
+    hint: 'Complete two full color sets in one Azul game',
+    unlock: ({ rounds }) =>
+      rounds
+        .filter((r) => r.gameId === AZUL)
+        .some(
+          (r) =>
+            (r.scores[KAYRA]?.colors ?? 0) >= 2 ||
+            (r.scores[MAT]?.colors ?? 0) >= 2
+        ),
+  },
+  {
+    id: 'palace_wall',
+    name: 'Palace Wall',
+    emoji: '🧱',
+    hint: 'Score 100+ points in a single Azul game',
+    unlock: ({ rounds }) =>
+      rounds
+        .filter((r) => r.gameId === AZUL)
+        .some(
+          (r) =>
+            (r.scores[KAYRA]?.total ?? 0) >= 100 ||
+            (r.scores[MAT]?.total ?? 0) >= 100
+        ),
+  },
+  {
+    id: 'by_a_row',
+    name: 'By a Row',
+    emoji: '📏',
+    hint: 'Win an Azul game on the full-row tiebreaker',
+    unlock: ({ rounds }) =>
+      rounds
+        .filter((r) => r.gameId === AZUL)
+        .some(
+          (r) =>
+            r.outcome !== 'tie' &&
+            (r.scores[KAYRA]?.total ?? 0) === (r.scores[MAT]?.total ?? 0)
         ),
   },
   {

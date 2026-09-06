@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { KAYRA, MAT } from '../constants/players'
-import { WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA } from '../constants/games'
+import { WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA, AZUL } from '../constants/games'
 
 function streak(results, value) {
   let max = 0
@@ -32,6 +32,7 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
     const lostCities = rounds.filter((r) => r.gameId === LOST_CITIES)
     const sevenWonders = rounds.filter((r) => r.gameId === SEVEN_WONDERS)
     const onitama = rounds.filter((r) => r.gameId === ONITAMA)
+    const azul = rounds.filter((r) => r.gameId === AZUL)
 
     // ── Wingspan ──────────────────────────────────────────────────────────
     const wOutcomes = wingspan.map((r) => r.outcome)
@@ -125,6 +126,59 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
 
     const wingspanPocketLeader =
       wpKayraWins > wpMatWins ? KAYRA : wpMatWins > wpKayraWins ? MAT : 'tie'
+
+    // ── Azul ──────────────────────────────────────────────────────────────
+    const azOutcomes = azul.map((r) => r.outcome)
+    const azKayraWins = azOutcomes.filter((o) => o === KAYRA).length
+    const azMatWins = azOutcomes.filter((o) => o === MAT).length
+    const azTies = azOutcomes.filter((o) => o === 'tie').length
+
+    const allAzulScores = azul.flatMap((r) =>
+      [KAYRA, MAT].map((p) => ({ player: p, total: r.scores[p]?.total ?? 0, round: r }))
+    )
+    const highestAzulScore = allAzulScores.reduce(
+      (best, s) => (s.total > (best?.total ?? -1) ? s : best),
+      null
+    )
+
+    const azKayraAvg = azul.length
+      ? Math.round(azul.reduce((s, r) => s + (r.scores[KAYRA]?.total ?? 0), 0) / azul.length)
+      : null
+    const azMatAvg = azul.length
+      ? Math.round(azul.reduce((s, r) => s + (r.scores[MAT]?.total ?? 0), 0) / azul.length)
+      : null
+
+    const azKayraStreak = streak(azOutcomes, KAYRA)
+    const azMatStreak = streak(azOutcomes, MAT)
+
+    const azMargins = azul.map((r) =>
+      Math.abs((r.scores[KAYRA]?.total ?? 0) - (r.scores[MAT]?.total ?? 0))
+    )
+    const azClosestGame = azMargins.length ? Math.min(...azMargins) : null
+    const azBiggestBlowout = azMargins.length ? Math.max(...azMargins) : null
+
+    const azCategoryHighs = {}
+    const azCats = ['track', 'rows', 'columns', 'colors']
+    for (const cat of azCats) {
+      let best = null
+      for (const r of azul) {
+        for (const p of [KAYRA, MAT]) {
+          const val = r.scores[p]?.[cat] ?? 0
+          if (best === null || val > best.val) best = { val, player: p }
+        }
+      }
+      if (best) azCategoryHighs[cat] = best
+    }
+
+    // Games decided only by the full-row tiebreaker (equal point totals).
+    const azTiebreakWins = azul.filter(
+      (r) =>
+        r.outcome !== 'tie' &&
+        (r.scores[KAYRA]?.total ?? 0) === (r.scores[MAT]?.total ?? 0)
+    ).length
+
+    const azulLeader =
+      azKayraWins > azMatWins ? KAYRA : azMatWins > azKayraWins ? MAT : 'tie'
 
     // ── Splendor Duel ─────────────────────────────────────────────────────
     const sKayraWins = splendor.filter((r) => r.winner === KAYRA).length
@@ -226,13 +280,13 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
     // All competitive rounds (all games except skyteam)
     const customCompRounds = rounds.filter((r) => r.gameId.startsWith('custom_'))
     const allCompRounds = [
-      ...wingspan, ...wingspanPocket, ...splendor, ...jaipur, ...patchwork, ...lostCities, ...sevenWonders, ...onitama,
+      ...wingspan, ...wingspanPocket, ...splendor, ...jaipur, ...patchwork, ...lostCities, ...sevenWonders, ...onitama, ...azul,
       ...customCompRounds,
     ]
 
-    const totalKayraWins = wKayraWins + wpKayraWins + sKayraWins + jaipurKayraWins + patchworkKayraWins + lcKayraWins + swKayraWins + oniKayraWins
+    const totalKayraWins = wKayraWins + wpKayraWins + sKayraWins + jaipurKayraWins + patchworkKayraWins + lcKayraWins + swKayraWins + oniKayraWins + azKayraWins
       + customStats.reduce((s, cs) => s + cs.kayraWins, 0)
-    const totalMatWins = wMatWins + wpMatWins + sMatWins + jaipurMatWins + patchworkMatWins + lcMatWins + swMatWins + oniMatWins
+    const totalMatWins = wMatWins + wpMatWins + sMatWins + jaipurMatWins + patchworkMatWins + lcMatWins + swMatWins + oniMatWins + azMatWins
       + customStats.reduce((s, cs) => s + cs.matWins, 0)
     const totalCompetitive = allCompRounds.length
 
@@ -241,7 +295,7 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
       .slice()
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .map((r) => {
-        if (r.gameId === WINGSPAN || r.gameId === WINGSPAN_POCKET || r.gameId === JAIPUR || r.gameId === PATCHWORK || r.gameId === LOST_CITIES || r.gameId.startsWith('custom_')) {
+        if (r.gameId === WINGSPAN || r.gameId === WINGSPAN_POCKET || r.gameId === AZUL || r.gameId === JAIPUR || r.gameId === PATCHWORK || r.gameId === LOST_CITIES || r.gameId.startsWith('custom_')) {
           return r.outcome
         }
         return r.winner
@@ -339,6 +393,22 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
         closestGame: wpClosestGame,
         biggestBlowout: wpBiggestBlowout,
         categoryHighs: wpCategoryHighs,
+      },
+      azul: {
+        leader: azulLeader,
+        kayraWins: azKayraWins,
+        matWins: azMatWins,
+        ties: azTies,
+        total: azul.length,
+        highestScore: highestAzulScore,
+        kayraAvg: azKayraAvg,
+        matAvg: azMatAvg,
+        kayraStreak: azKayraStreak,
+        matStreak: azMatStreak,
+        closestGame: azClosestGame,
+        biggestBlowout: azBiggestBlowout,
+        categoryHighs: azCategoryHighs,
+        tiebreakWins: azTiebreakWins,
       },
       splendor: {
         leader: splendorLeader,

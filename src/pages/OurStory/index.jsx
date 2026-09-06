@@ -6,6 +6,7 @@ import WingspanStats from './WingspanStats'
 import WingspanPocketStats from './WingspanPocketStats'
 import SplendorStats from './SplendorStats'
 import SkyTeamStats from './SkyTeamStats'
+import AzulStats from './AzulStats'
 import FunFacts from './FunFacts'
 import Accolades from './Accolades'
 import CollapsibleCard from '../../components/CollapsibleCard'
@@ -42,6 +43,7 @@ export default function OurStory({ rounds, customGames }) {
       <WingspanPocketStats stats={stats.wingspanPocket} />
       <SplendorStats stats={stats.splendor} />
       <SkyTeamStats stats={stats.skyteam} />
+      <AzulStats stats={stats.azul} />
 
       {stats.jaipur.total > 0 && (
         <CollapsibleCard title="🐪 Jaipur" subtitle={`${stats.jaipur.leader === 'tie' ? 'Tied' : `${playerLabels[stats.jaipur.leader]} leads`} · ${stats.jaipur.total} rounds`}>
