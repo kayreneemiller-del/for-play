@@ -7,6 +7,7 @@ export const PATCHWORK = 'patchwork'
 export const LOST_CITIES = 'lost_cities'
 export const SEVEN_WONDERS = '7wonders'
 export const ONITAMA = 'onitama'
+export const AZUL = 'azul'
 
 export const GAME_CONFIG = {
   [WINGSPAN]: {
@@ -73,6 +74,13 @@ export const GAME_CONFIG = {
     type: 'competitive',
     color: 'teal',
   },
+  [AZUL]: {
+    id: AZUL,
+    label: 'Azul',
+    emoji: '🔷',
+    type: 'competitive',
+    color: 'teal',
+  },
 }
 
 export const SPLENDOR_WIN_METHODS = [
@@ -115,4 +123,13 @@ export const WINGSPAN_POCKET_CATEGORIES = [
   { key: 'eggs', label: 'Eggs' },
   { key: 'tucked_cards', label: 'Tucked Cards' },
   { key: 'goals', label: 'Goals' },
+]
+
+// Azul: the score track already includes tile placement and floor-line
+// penalties, so only the three end-of-game bonuses are multiplied out.
+export const AZUL_CATEGORIES = [
+  { key: 'track', label: 'Score Track', hint: 'after floor penalties', multiplier: 1 },
+  { key: 'rows', label: 'Full Rows', hint: '2 pts each', multiplier: 2 },
+  { key: 'columns', label: 'Full Columns', hint: '7 pts each', multiplier: 7 },
+  { key: 'colors', label: 'Color Sets', hint: '10 pts each', multiplier: 10 },
 ]
