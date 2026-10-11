@@ -258,6 +258,47 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
     const swMatWins = sevenWonders.filter((r) => r.winner === MAT).length
     const swLeader = swKayraWins > swMatWins ? KAYRA : swMatWins > swKayraWins ? MAT : 'tie'
 
+    const swMethodCounts = { military: 0, science: 0, civilian: 0 }
+    const swKayraMethods = { military: 0, science: 0, civilian: 0 }
+    const swMatMethods = { military: 0, science: 0, civilian: 0 }
+    for (const r of sevenWonders) {
+      if (!r.winMethod || r.winner === 'tie') continue
+      swMethodCounts[r.winMethod] = (swMethodCounts[r.winMethod] || 0) + 1
+      if (r.winner === KAYRA) swKayraMethods[r.winMethod]++
+      else if (r.winner === MAT) swMatMethods[r.winMethod]++
+    }
+    const swTies = sevenWonders.filter((r) => r.winner === 'tie').length
+    const swPointRounds = sevenWonders.filter((r) => r.scores?.[KAYRA] && r.scores?.[MAT])
+    const swAvg = (player) => {
+      const totals = swPointRounds.map((r) => r.scores[player].total ?? 0)
+      return totals.length ? Math.round(totals.reduce((a, b) => a + b, 0) / totals.length) : null
+    }
+    let swHighestScore = null
+    const swCategoryAvgs = {}
+    const swCategoryHighs = {}
+    for (const r of swPointRounds) {
+      for (const player of [KAYRA, MAT]) {
+        const sc = r.scores[player]
+        if (!swHighestScore || (sc.total ?? 0) > swHighestScore.total) swHighestScore = { total: sc.total ?? 0, player }
+        for (const [key, val] of Object.entries(sc)) {
+          if (key === 'total' || val == null) continue
+          swCategoryAvgs[key] ??= { [KAYRA]: [], [MAT]: [] }
+          swCategoryAvgs[key][player].push(val)
+          if (!swCategoryHighs[key] || val > swCategoryHighs[key].val) swCategoryHighs[key] = { val, player }
+        }
+      }
+    }
+    for (const key of Object.keys(swCategoryAvgs)) {
+      for (const player of [KAYRA, MAT]) {
+        const vals = swCategoryAvgs[key][player]
+        swCategoryAvgs[key][player] = vals.length ? Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 10) / 10 : null
+      }
+    }
+    const swMargins = swPointRounds
+      .filter((r) => r.winMethod === 'civilian' && r.winner !== 'tie')
+      .map((r) => Math.abs((r.scores[KAYRA].total ?? 0) - (r.scores[MAT].total ?? 0)))
+    const swOutcomes = sevenWonders.slice().sort((a, b) => new Date(a.date) - new Date(b.date)).map((r) => r.winner)
+
     const oniKayraWins = onitama.filter((r) => r.winner === KAYRA).length
     const oniMatWins = onitama.filter((r) => r.winner === MAT).length
     const oniLeader = oniKayraWins > oniMatWins ? KAYRA : oniMatWins > oniKayraWins ? MAT : 'tie'
@@ -435,7 +476,15 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
       jaipur: { total: jaipur.length, kayraWins: jaipurKayraWins, matWins: jaipurMatWins, leader: jaipurLeader },
       patchwork: { total: patchwork.length, kayraWins: patchworkKayraWins, matWins: patchworkMatWins, leader: patchworkLeader },
       lostCities: { total: lostCities.length, kayraWins: lcKayraWins, matWins: lcMatWins, leader: lcLeader },
-      sevenWonders: { total: sevenWonders.length, kayraWins: swKayraWins, matWins: swMatWins, leader: swLeader },
+      sevenWonders: {
+        total: sevenWonders.length, kayraWins: swKayraWins, matWins: swMatWins, ties: swTies, leader: swLeader,
+        methodCounts: swMethodCounts, kayraMethods: swKayraMethods, matMethods: swMatMethods,
+        kayraAvg: swAvg(KAYRA), matAvg: swAvg(MAT), highestScore: swHighestScore,
+        categoryAvgs: swCategoryAvgs, categoryHighs: swCategoryHighs,
+        closestGame: swMargins.length ? Math.min(...swMargins) : null,
+        biggestBlowout: swMargins.length ? Math.max(...swMargins) : null,
+        kayraStreak: streak(swOutcomes, KAYRA), matStreak: streak(swOutcomes, MAT),
+      },
       onitama: { total: onitama.length, kayraWins: oniKayraWins, matWins: oniMatWins, leader: oniLeader, methodCounts: oniMethodCounts },
       customStats,
       facts,
