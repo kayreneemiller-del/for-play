@@ -95,6 +95,19 @@ export const SEVEN_WONDERS_WIN_METHODS = [
   { value: 'civilian', label: 'Civilian Victory — Most victory points' },
 ]
 
+// 7 Wonders Duel score pad rows, in the order printed on the pad.
+// `bg` tints the row to match the card colour.
+export const SEVEN_WONDERS_CATEGORIES = [
+  { key: 'blue', label: 'Civilian', icon: '🟦', bg: 'rgba(96,165,250,0.18)' },
+  { key: 'green', label: 'Science', icon: '🟩', bg: 'rgba(74,222,128,0.18)' },
+  { key: 'yellow', label: 'Commercial', icon: '🟨', bg: 'rgba(250,204,21,0.18)' },
+  { key: 'purple', label: 'Guilds', icon: '🟪', bg: 'rgba(167,139,250,0.18)' },
+  { key: 'wonders', label: 'Wonders', icon: '🔺', bg: 'rgba(255,255,255,0.08)' },
+  { key: 'progress', label: 'Progress Tokens', icon: '🟢', bg: 'rgba(52,211,153,0.18)' },
+  { key: 'coins', label: 'Coins', icon: '🪙', bg: 'rgba(250,204,21,0.14)' },
+  { key: 'military', label: 'Military', icon: '⚔️', bg: 'rgba(251,146,60,0.18)' },
+]
+
 export const ONITAMA_WIN_METHODS = [
   { value: 'stone', label: "Way of the Stone — Captured the opponent's Master" },
   { value: 'stream', label: "Way of the Stream — Moved your Master to their Temple Arch" },
