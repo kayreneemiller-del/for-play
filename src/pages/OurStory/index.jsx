@@ -5,6 +5,7 @@ import HorseRace from './HorseRace'
 import WingspanStats from './WingspanStats'
 import WingspanPocketStats from './WingspanPocketStats'
 import SplendorStats from './SplendorStats'
+import SevenWondersStats from './SevenWondersStats'
 import SkyTeamStats from './SkyTeamStats'
 import AzulStats from './AzulStats'
 import FunFacts from './FunFacts'
@@ -60,11 +61,7 @@ export default function OurStory({ rounds, customGames }) {
           <StatRow label="Record" value={`${p1Name} ${stats.lostCities.kayraWins} – ${p2Name} ${stats.lostCities.matWins}`} />
         </CollapsibleCard>
       )}
-      {stats.sevenWonders.total > 0 && (
-        <CollapsibleCard title="🏛️ 7 Wonders Duel" subtitle={`${stats.sevenWonders.leader === 'tie' ? 'Tied' : `${playerLabels[stats.sevenWonders.leader]} leads`} · ${stats.sevenWonders.total} rounds`}>
-          <StatRow label="Record" value={`${p1Name} ${stats.sevenWonders.kayraWins} – ${p2Name} ${stats.sevenWonders.matWins}`} />
-        </CollapsibleCard>
-      )}
+      <SevenWondersStats stats={stats.sevenWonders} />
 
       {stats.onitama.total > 0 && (
         <CollapsibleCard title="🥋 Onitama" subtitle={`${stats.onitama.leader === 'tie' ? 'Tied' : `${playerLabels[stats.onitama.leader]} leads`} · ${stats.onitama.total} rounds`}>
