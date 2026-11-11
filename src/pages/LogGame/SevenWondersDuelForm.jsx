@@ -1,16 +1,14 @@
 import { useState } from 'react'
 import ScoreInput from '../../components/ScoreInput'
 import PillButton from '../../components/PillButton'
-import { SEVEN_WONDERS, SEVEN_WONDERS_CATEGORIES } from '../../constants/games'
+import { SEVEN_WONDERS, SEVEN_WONDERS_PANTHEON, SEVEN_WONDERS_CATEGORIES, SEVEN_WONDERS_PANTHEON_CATEGORIES } from '../../constants/games'
 import { KAYRA, MAT } from '../../constants/players'
 import { usePlayerLabels } from '../../context/CoupleContext'
 
 const today = () => new Date().toISOString().slice(0, 10)
 
-const emptyScores = () => ({
-  blue: null, green: null, yellow: null, purple: null,
-  wonders: null, progress: null, coins: null, military: null,
-})
+const emptyScores = (categories) =>
+  Object.fromEntries(categories.map((c) => [c.key, null]))
 
 function calcTotal(scores) {
   return Object.values(scores).reduce((sum, v) => sum + (v ?? 0), 0)
@@ -34,9 +32,10 @@ function Check({ checked, onChange, label }) {
   )
 }
 
-export default function SevenWondersDuelForm({ onSave }) {
+export default function SevenWondersDuelForm({ onSave, pantheon = false }) {
   const playerLabels = usePlayerLabels()
-  const [scores, setScores] = useState({ [KAYRA]: emptyScores(), [MAT]: emptyScores() })
+  const categories = pantheon ? SEVEN_WONDERS_PANTHEON_CATEGORIES : SEVEN_WONDERS_CATEGORIES
+  const [scores, setScores] = useState({ [KAYRA]: emptyScores(categories), [MAT]: emptyScores(categories) })
   // Supremacy ends the game on the spot; only one player can have one.
   const [supremacy, setSupremacy] = useState(null) // { player, type: 'military' | 'science' }
   const [date, setDate] = useState(today())
@@ -83,7 +82,7 @@ export default function SevenWondersDuelForm({ onSave }) {
     const loser = outcome === KAYRA ? MAT : KAYRA
     const totals = { [KAYRA]: kayraTotal, [MAT]: matTotal }
     onSave({
-      gameId: SEVEN_WONDERS,
+      gameId: pantheon ? SEVEN_WONDERS_PANTHEON : SEVEN_WONDERS,
       date,
       notes,
       winner: outcome,
@@ -108,7 +107,7 @@ export default function SevenWondersDuelForm({ onSave }) {
           <div className="text-xs text-magenta font-bold uppercase tracking-wider w-20 text-center">{playerLabels[MAT]}</div>
         </div>
 
-        {SEVEN_WONDERS_CATEGORIES.map((cat) => (
+        {categories.map((cat) => (
           <div
             key={cat.key}
             className={`${cols} py-2 border-b border-white/5 items-center`}
