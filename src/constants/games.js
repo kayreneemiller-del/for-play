@@ -6,6 +6,7 @@ export const JAIPUR = 'jaipur'
 export const PATCHWORK = 'patchwork'
 export const LOST_CITIES = 'lost_cities'
 export const SEVEN_WONDERS = '7wonders'
+export const SEVEN_WONDERS_PANTHEON = '7wonders_pantheon'
 export const ONITAMA = 'onitama'
 export const AZUL = 'azul'
 
@@ -67,6 +68,13 @@ export const GAME_CONFIG = {
     type: 'competitive',
     color: 'gold',
   },
+  [SEVEN_WONDERS_PANTHEON]: {
+    id: SEVEN_WONDERS_PANTHEON,
+    label: '7 Wonders Duel Pantheon',
+    emoji: '⚡',
+    type: 'competitive',
+    color: 'gold',
+  },
   [ONITAMA]: {
     id: ONITAMA,
     label: 'Onitama',
@@ -106,6 +114,13 @@ export const SEVEN_WONDERS_CATEGORIES = [
   { key: 'progress', label: 'Progress Tokens', icon: '🟢', bg: 'rgba(52,211,153,0.18)' },
   { key: 'coins', label: 'Coins', icon: '🪙', bg: 'rgba(250,204,21,0.14)' },
   { key: 'military', label: 'Military', icon: '⚔️', bg: 'rgba(251,146,60,0.18)' },
+]
+
+// Pantheon adds divinity cards (and their victory points) to the standard pad.
+export const SEVEN_WONDERS_PANTHEON_CATEGORIES = [
+  ...SEVEN_WONDERS_CATEGORIES.slice(0, 5),
+  { key: 'divinities', label: 'Divinities', icon: '⚡', bg: 'rgba(244,114,182,0.18)' },
+  ...SEVEN_WONDERS_CATEGORIES.slice(5),
 ]
 
 export const ONITAMA_WIN_METHODS = [
