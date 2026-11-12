@@ -1,13 +1,13 @@
 import { KAYRA, MAT } from './players'
 
-// The Anniversary Games — a four-day special edition for our 2nd anniversary.
+// The Anniversary Games — a four-day special edition (Thu-Sun) for our 2nd anniversary.
 // Edit these dates to re-run the tournament some other week.
 export const TOURNAMENT = {
   id: 'anniversary-2026',
   name: 'The Anniversary Games',
-  tagline: 'Year Two · Wed → Sat',
-  start: '2026-11-11',
-  end: '2026-11-14',
+  tagline: 'Year Two · Thu → Sun',
+  start: '2026-11-12',
+  end: '2026-11-15',
   finaleDate: '2026-11-14', // Saturday: double points
   finaleMultiplier: 2,
 }
@@ -92,7 +92,7 @@ export const ACHIEVEMENTS = [
 export const GRAND_CHAMPION = {
   emoji: '🏆',
   name: 'Grand Champion',
-  hint: 'Most Heat when the tournament closes Saturday night',
+  hint: 'Most Heat when the tournament closes Sunday night',
   reward: '{o} owes {w} a "wedding night redux": candles, dress code, no phones, and {w} writes the itinerary. If it ends in a tie, you both do.',
 }
 
