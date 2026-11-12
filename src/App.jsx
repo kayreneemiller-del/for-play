@@ -3,6 +3,7 @@ import { CoupleProvider, useCouple } from './context/CoupleContext'
 import BottomNav from './components/BottomNav'
 import LogGame from './pages/LogGame'
 import OurStory from './pages/OurStory'
+import Tournament from './pages/Tournament'
 import Settings from './pages/Settings'
 import Onboarding from './pages/Onboarding'
 import { useRounds } from './hooks/useRounds'
@@ -31,6 +32,7 @@ function AppInner() {
       {activeTab === 'log' && (
         <LogGame onSave={addRound} customGames={customGames} onAddCustomGame={addCustomGame} />
       )}
+      {activeTab === 'tournament' && <Tournament rounds={rounds} />}
       {activeTab === 'story' && (
         <OurStory rounds={rounds} customGames={customGames} />
       )}
