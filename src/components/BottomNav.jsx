@@ -1,6 +1,7 @@
 export default function BottomNav({ active, onChange }) {
   const tabs = [
     { id: 'log', label: 'Log Game', icon: '🎲' },
+    { id: 'tournament', label: 'Games', icon: '💍' },
     { id: 'story', label: 'Our Story', icon: '🏆' },
     { id: 'settings', label: 'Settings', icon: '⚙️' },
   ]
