@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { KAYRA, MAT } from '../constants/players'
-import { WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA, AZUL } from '../constants/games'
+import { WINGSPAN, WINGSPAN_POCKET, SPLENDOR, SKYTEAM, JAIPUR, PATCHWORK, LOST_CITIES, SEVEN_WONDERS, ONITAMA, AZUL, HARMONIES } from '../constants/games'
 
 function streak(results, value) {
   let max = 0
@@ -33,6 +33,9 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
     const sevenWonders = rounds.filter((r) => r.gameId === SEVEN_WONDERS)
     const onitama = rounds.filter((r) => r.gameId === ONITAMA)
     const azul = rounds.filter((r) => r.gameId === AZUL)
+    const harmonies = rounds.filter((r) => r.gameId === HARMONIES)
+    const hKayraWins = harmonies.filter((r) => r.outcome === KAYRA).length
+    const hMatWins = harmonies.filter((r) => r.outcome === MAT).length
 
     // ── Wingspan ──────────────────────────────────────────────────────────
     const wOutcomes = wingspan.map((r) => r.outcome)
@@ -321,13 +324,13 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
     // All competitive rounds (all games except skyteam)
     const customCompRounds = rounds.filter((r) => r.gameId.startsWith('custom_'))
     const allCompRounds = [
-      ...wingspan, ...wingspanPocket, ...splendor, ...jaipur, ...patchwork, ...lostCities, ...sevenWonders, ...onitama, ...azul,
+      ...wingspan, ...wingspanPocket, ...splendor, ...jaipur, ...patchwork, ...lostCities, ...sevenWonders, ...onitama, ...azul, ...harmonies,
       ...customCompRounds,
     ]
 
-    const totalKayraWins = wKayraWins + wpKayraWins + sKayraWins + jaipurKayraWins + patchworkKayraWins + lcKayraWins + swKayraWins + oniKayraWins + azKayraWins
+    const totalKayraWins = wKayraWins + wpKayraWins + sKayraWins + jaipurKayraWins + patchworkKayraWins + lcKayraWins + swKayraWins + oniKayraWins + azKayraWins + hKayraWins
       + customStats.reduce((s, cs) => s + cs.kayraWins, 0)
-    const totalMatWins = wMatWins + wpMatWins + sMatWins + jaipurMatWins + patchworkMatWins + lcMatWins + swMatWins + oniMatWins + azMatWins
+    const totalMatWins = wMatWins + wpMatWins + sMatWins + jaipurMatWins + patchworkMatWins + lcMatWins + swMatWins + oniMatWins + azMatWins + hMatWins
       + customStats.reduce((s, cs) => s + cs.matWins, 0)
     const totalCompetitive = allCompRounds.length
 
@@ -336,7 +339,7 @@ export function useStats(rounds, p1Name = 'Player 1', p2Name = 'Player 2', custo
       .slice()
       .sort((a, b) => new Date(a.date) - new Date(b.date))
       .map((r) => {
-        if (r.gameId === WINGSPAN || r.gameId === WINGSPAN_POCKET || r.gameId === AZUL || r.gameId === JAIPUR || r.gameId === PATCHWORK || r.gameId === LOST_CITIES || r.gameId.startsWith('custom_')) {
+        if (r.gameId === WINGSPAN || r.gameId === WINGSPAN_POCKET || r.gameId === AZUL || r.gameId === HARMONIES || r.gameId === JAIPUR || r.gameId === PATCHWORK || r.gameId === LOST_CITIES || r.gameId.startsWith('custom_')) {
           return r.outcome
         }
         return r.winner
