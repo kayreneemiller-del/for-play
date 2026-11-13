@@ -9,6 +9,7 @@ export const SEVEN_WONDERS = '7wonders'
 export const SEVEN_WONDERS_PANTHEON = '7wonders_pantheon'
 export const ONITAMA = 'onitama'
 export const AZUL = 'azul'
+export const HARMONIES = 'harmonies'
 
 export const GAME_CONFIG = {
   [WINGSPAN]: {
@@ -89,6 +90,13 @@ export const GAME_CONFIG = {
     type: 'competitive',
     color: 'teal',
   },
+  [HARMONIES]: {
+    id: HARMONIES,
+    label: 'Harmonies',
+    emoji: '🌿',
+    type: 'competitive',
+    color: 'teal',
+  },
 }
 
 export const SPLENDOR_WIN_METHODS = [
@@ -161,3 +169,17 @@ export const AZUL_CATEGORIES = [
   { key: 'columns', label: 'Full Columns', hint: '7 pts each', multiplier: 7 },
   { key: 'colors', label: 'Color Sets', hint: '10 pts each', multiplier: 10 },
 ]
+
+// Harmonies score pad: one total per landscape (colour-matched like the pad),
+// then the animal card points. Habitats + animals = final score.
+export const HARMONIES_LANDSCAPES = [
+  { key: 'trees', label: 'Trees', icon: '🌳', hint: 'Leaf on 0/1/2 trunks = 1/3/7 pts', bg: 'rgba(132,204,22,0.18)' },
+  { key: 'mountains', label: 'Mountains', icon: '⛰️', hint: 'Stacks of 1/2/3 = 1/3/7 pts, only if touching another mountain', bg: 'rgba(148,163,184,0.20)' },
+  { key: 'fields', label: 'Fields', icon: '🌾', hint: '5 pts per group of 2+ fields', bg: 'rgba(250,204,21,0.18)' },
+  { key: 'buildings', label: 'Buildings', icon: '🏠', hint: '5 pts each, touching 3+ different colours', bg: 'rgba(248,113,113,0.18)' },
+  { key: 'water', label: 'Water', icon: '💧', hint: 'Longest river: 2→2, 3→5, 4→8, 5→11, 6→15, +4 each beyond', bg: 'rgba(56,189,248,0.18)' },
+]
+
+// Animal cards: the pad has a column of slots, one score per card.
+export const HARMONIES_MIN_ANIMAL_SLOTS = 4
+export const HARMONIES_MAX_ANIMAL_SLOTS = 9
